@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validateGeneric Passes validation with correctly supplied data 1`] = `undefined`;
+
+exports[`validateGeneric Triggers validation error with incorrectly supplied data 1`] = `
+{
+  "AdvancedString": [
+    "Invalid AdvancedString regex",
+  ],
+}
+`;

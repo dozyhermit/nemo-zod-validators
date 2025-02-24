@@ -1,5 +1,15 @@
 import { MiddlewareFunctionProps } from '@rescale/nemo';
-import { z } from 'zod';
+import { SafeParseReturnType, z } from 'zod';
+
+type ZodError = z.SafeParseError<Record<string, any>>;
+
+const DEFAULT_ERROR_MESSAGE = 'Validation has failed';
+
+const errorHandlerDefault = ({ error }: ZodError) =>
+  Response.json(
+    { message: error?.flatten()?.fieldErrors ?? DEFAULT_ERROR_MESSAGE },
+    { status: 422 }
+  );
 
 type Schema<T> = z.ZodObject<
   z.ZodRawShape,
@@ -8,19 +18,16 @@ type Schema<T> = z.ZodObject<
   T
 >;
 
-type ZodError = z.SafeParseError<Record<string, any>>;
-
-const errorHandlerDefault = ({ error }: ZodError) =>
-  Response.json({ message: error?.flatten()?.fieldErrors }, { status: 422 });
-
-type ValidateBase<T> = {
+export type ValidateBase<T> = {
   schema: Schema<T>;
-  errorHandler?: (validationResult: ZodError) => any;
+  errorHandler?: (
+    validationResult: SafeParseReturnType<Record<string, any>, T>
+  ) => any;
 };
 
 type ValidateGeneric<T> = { data: T } & ValidateBase<T>;
 
-const validateGeneric = <T>({
+export const validateGeneric = <T>({
   data,
   schema,
   errorHandler,
@@ -34,6 +41,8 @@ const validateGeneric = <T>({
 
     return errorHandlerDefault(validationResult);
   }
+
+  return undefined;
 };
 
 type ValidateParams<T> = ValidateBase<T>;

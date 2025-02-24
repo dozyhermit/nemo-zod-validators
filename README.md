@@ -1,10 +1,6 @@
 # nemo-zod-validators
 
-This is a personal project, but is worth being open source because it's pretty handy;
-
-`@rescale/nemo` and `zod` saved my life when working with Next.js app router api endpoints, but writing the same validation functions over and over was driving me crazy.
-
-And so this makes writing validation functions even easier.
+`@rescale/nemo` and `zod` saved my life when working with Next.js app router api endpoints, but writing the same validation functions over and over was driving me crazy. So, this just makes writing validation even easier.
 
 # Installation
 
