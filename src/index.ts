@@ -1,4 +1,5 @@
 import { MiddlewareFunctionProps } from '@rescale/nemo';
+import { NextResponse } from 'next/server';
 import { SafeParseReturnType, z } from 'zod';
 
 type ZodError = z.SafeParseError<Record<string, any>>;
@@ -42,7 +43,7 @@ export const validateGeneric = <T>({
     return errorHandlerDefault(validationResult);
   }
 
-  return undefined;
+  return NextResponse.next();
 };
 
 type ValidateParams<T> = ValidateBase<T>;
