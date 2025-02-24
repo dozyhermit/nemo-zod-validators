@@ -17,7 +17,7 @@ const schema = z.object({
 
 type SchemaType = z.infer<typeof schema>;
 
-// Handler required to avoid testing with Next.js responses
+// handler required to avoid testing with Response results
 const errorHandler = ({
   error,
 }: SafeParseReturnType<Record<string, any>, SchemaType>) =>
@@ -25,23 +25,24 @@ const errorHandler = ({
 
 describe('validateGeneric', () => {
   test('Triggers validation error with incorrectly supplied data', () => {
-    expect(
-      validateGeneric<SchemaType>({
-        // AdvancedString must be a number string
-        data: { Number: 123, String: 'Hello', AdvancedString: 'World' },
-        schema,
-        errorHandler,
-      })
-    ).toMatchSnapshot();
+    const result = validateGeneric<SchemaType>({
+      // AdvancedString must be a number string
+      data: { Number: 123, String: 'Hello', AdvancedString: 'World' },
+      schema,
+      errorHandler,
+    });
+
+    expect(result).toMatchSnapshot();
   });
 
-  test('Passes validation with correctly supplied data', () => {
-    expect(
-      validateGeneric<SchemaType>({
-        data: { Number: 123, String: 'Hello', AdvancedString: '123456' },
-        schema,
-        errorHandler,
-      })
-    ).toMatchSnapshot();
+  test('Passes validation with correctly supplied data', async () => {
+    const result = await validateGeneric<SchemaType>({
+      data: { Number: 123, String: 'Hello', AdvancedString: '123456' },
+      schema,
+      errorHandler,
+    });
+
+    // proof that NextResponse.next() is called
+    expect(result).toMatchSnapshot();
   });
 });

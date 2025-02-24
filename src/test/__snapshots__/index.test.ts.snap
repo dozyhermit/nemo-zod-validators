@@ -1,6 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`validateGeneric Passes validation with correctly supplied data 1`] = `undefined`;
+exports[`validateGeneric Passes validation with correctly supplied data 1`] = `
+NextResponse {
+  Symbol(state): {
+    "aborted": false,
+    "cacheState": "",
+    "headersList": HeadersList {
+      "cookies": null,
+      Symbol(headers map): Map {
+        "x-middleware-next" => {
+          "name": "x-middleware-next",
+          "value": "1",
+        },
+      },
+      Symbol(headers map sorted): null,
+    },
+    "rangeRequested": false,
+    "requestIncludesCredentials": false,
+    "status": 200,
+    "statusText": "",
+    "timingAllowPassed": false,
+    "timingInfo": null,
+    "type": "default",
+    "urlList": [],
+  },
+  Symbol(headers): Headers {},
+  Symbol(internal response): {
+    "cookies": bound ResponseCookies {
+      "_headers": Headers {},
+      "_parsed": Map {},
+    },
+    "url": undefined,
+  },
+}
+`;
 
 exports[`validateGeneric Triggers validation error with incorrectly supplied data 1`] = `
 {
