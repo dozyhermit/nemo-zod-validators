@@ -10,12 +10,8 @@ type Schema<T> = z.ZodObject<
 
 type ZodError = z.SafeParseError<Record<string, any>>;
 
-const errorHandlerDefault = ({ error }: ZodError) => {
-  return Response.json(
-    { message: error?.flatten()?.fieldErrors },
-    { status: 422 }
-  );
-};
+const errorHandlerDefault = ({ error }: ZodError) =>
+  Response.json({ message: error?.flatten()?.fieldErrors }, { status: 422 });
 
 type ValidateBase<T> = {
   schema: Schema<T>;
