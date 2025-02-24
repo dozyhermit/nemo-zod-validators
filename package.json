@@ -1,0 +1,56 @@
+{
+  "name": "@dozyhermit/nemo-zod-validators",
+  "version": "0.1.0-alpha",
+  "description": "A collection of middleware validators made with zod and @rescale/nemo for Next.js",
+  "license": "MIT",
+  "author": "dozyhermit (https://github.com/dozyhermit)",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dozyhermit/nemo-zod-validators.git"
+  },
+  "homepage": "https://github.com/dozyhermit/nemo-zod-validators#readme",
+  "bugs": {
+    "url": "https://github.com/dozyhermit/nemo-zod-validators/issues"
+  },
+  "publishConfig": {
+    "@dozyhermit:registry": "https://npm.pkg.github.com"
+  },
+  "keywords": [
+    "zod",
+    "@rescale/nemo",
+    "Next.js"
+  ],
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib/**/*"
+  ],
+  "devDependencies": {
+    "@types/node": "^22.13.5",
+    "@typescript-eslint/eslint-plugin": "^8.24.1",
+    "@typescript-eslint/parser": "^8.24.1",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "prettier": "^3.5.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@rescale/nemo": "^1.4.0",
+    "zod": "^3.24.2"
+  },
+  "scripts": {
+    "build": "tsc --project tsconfig.build.json",
+    "clean": "rm -rf ./lib/",
+    "cm": "cz",
+    "lint": "eslint ./src/ --fix",
+    "test:watch": "jest --watch",
+    "test": "jest --coverage",
+    "typecheck": "tsc --noEmit"
+  }
+}
