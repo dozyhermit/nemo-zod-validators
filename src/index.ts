@@ -6,9 +6,17 @@ type ZodError = z.SafeParseError<Record<string, any>>;
 
 const DEFAULT_ERROR_MESSAGE = 'Validation has failed';
 
-const errorHandlerDefault = ({ error }: ZodError) =>
+export const errorHandlerDefault = ({ error }: ZodError) =>
   Response.json(
-    { message: error?.flatten()?.fieldErrors ?? DEFAULT_ERROR_MESSAGE },
+    {
+      message:
+        // this seems ridiculous and it is, sorry
+        (error?.flatten &&
+        error?.flatten()?.fieldErrors &&
+        Object.values(error?.flatten()?.fieldErrors).length >= 1
+          ? error?.flatten()?.fieldErrors
+          : DEFAULT_ERROR_MESSAGE) || DEFAULT_ERROR_MESSAGE,
+    },
     { status: 422 }
   );
 
@@ -19,11 +27,13 @@ type Schema<T> = z.ZodObject<
   T
 >;
 
+type ValidateBaseReturnType = NextResponse | Response;
+
 export type ValidateBase<T> = {
   schema: Schema<T>;
   errorHandler?: (
     validationResult: SafeParseReturnType<Record<string, any>, T>
-  ) => any;
+  ) => ValidateBaseReturnType;
 };
 
 type ValidateGeneric<T> = { data: T } & ValidateBase<T>;
@@ -32,7 +42,7 @@ export const validateGeneric = <T>({
   data,
   schema,
   errorHandler,
-}: ValidateGeneric<T>) => {
+}: ValidateGeneric<T>): ValidateBaseReturnType => {
   const validationResult = schema.safeParse(data as T);
 
   if (validationResult.error) {
