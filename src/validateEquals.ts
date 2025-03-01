@@ -6,15 +6,11 @@ import type { ValidateWithTransform } from './types';
 type ValidateEquals<T> = ValidateWithTransform<T>;
 
 /**
- * Validates a specific variable against a value inside a Next.js NextRequest typed request.
- * This does not use a zod schema and safeParse and instead perform an exact equal (===)
- * against a value and a value inside of request.
- *
- * _Note: Your generic may need to be the same as the type returned from transform._
+ * Validates a local variable against a variable inside a `NextRequest` typed request using the `===` operator.
  *
  * @param {T} value The value being verified
- * @param {Function} transform The way you retrieve a value from a Next.js NextRequest typed request
- * @param {Function} errorHandler A custom error function for custom error return results
+ * @param {Function} transform How to retrieve a value out of a request
+ * @param {Function} errorHandler A custom error function
  *
  * @example
  * validateEquals<String | null>(env.process.MY_ENV_VAR, (request) => request.headers['MY_HEADER']));

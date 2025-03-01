@@ -11,17 +11,17 @@ export type Schema<T> = z.ZodObject<
   T
 >;
 
-export type ValidateBaseReturnType = NextResponse | Response;
+export type ValidateReturnType = NextResponse | Response;
 
 export type ValidateWithSchema<T> = {
   schema: Schema<T>;
   errorHandler?: (
     validationResult: SafeParseReturnType<Record<string, any>, T>
-  ) => ValidateBaseReturnType;
+  ) => ValidateReturnType;
 };
 
 export type ValidateWithTransform<T> = {
   value: T;
   transform: (request: MiddlewareFunctionProps['request']) => T;
-  errorHandler?: () => ValidateBaseReturnType;
+  errorHandler?: () => ValidateReturnType;
 };
