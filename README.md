@@ -188,5 +188,5 @@ The return type is either `Response` or `NextResponse.next()`.
 const value = process.env.MY_ENV_VAR;
 const transform = (request) => request.headers.get('MY_HEADER');
 
-validateEquals<SchemaType>({ value, transform });
+validateEquals<string | null>({ value, transform });
 ```
