@@ -1,22 +1,22 @@
 import { MiddlewareFunctionProps } from '@rescale/nemo';
-import type { ValidateWithSchema } from './types';
+import { ValidateWithSchema } from './types';
 import { validateGeneric } from './validateGeneric';
 
-type ValidateHeaders<T> = ValidateWithSchema<T>;
+type ValidateCookies<T> = ValidateWithSchema<T>;
 
 /**
- * Validates the `request.headers` object inside a `NextRequest` typed request using `zod.safeParse`.
+ * Validates the `request.cookies` object inside a `NextRequest` typed request using `zod.safeParse`.
  *
  * @param {T} schema The schema doing the validating
  * @param {Function} errorHandler A custom error function
  */
-export const validateHeaders = <T>({
+export const validateCookies = <T>({
   schema,
   errorHandler,
-}: ValidateHeaders<T>) => {
+}: ValidateCookies<T>) => {
   return async ({ request }: MiddlewareFunctionProps) =>
     validateGeneric({
-      data: request.headers as T,
+      data: request.cookies as T,
       schema,
       errorHandler,
     });
