@@ -5,11 +5,10 @@ import { validateGeneric } from './validateGeneric';
 type ValidateParams<T> = ValidateWithSchema<T>;
 
 /**
- * Validates query params with a zod schema using safeParse.
- * This function will automatically use the request.params() function in a Next.js NextRequest typed request.
+ * Validates the `request.params()` function inside a `NextRequest` typed request using `zod.safeParse`.
  *
- * @param {z.ZodObject} schema The schema doing the validating
- * @param {Function} errorHandler A custom error function for custom error return results
+ * @param {T} schema The schema doing the validating
+ * @param {Function} errorHandler A custom error function
  */
 export const validateParams = <T>({
   schema,
