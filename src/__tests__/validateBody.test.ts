@@ -1,7 +1,7 @@
-import { validateBody } from '..';
-import { errorHandler } from './mocks/handlers';
+import { validateBody } from '../validateBody';
+import { errorHandler } from './mocks/errorHandler';
 import {
-  SchemaType,
+  type SchemaType,
   schema,
   schemaWithIntentionallyBrokenSafeParse,
 } from './mocks/schema';

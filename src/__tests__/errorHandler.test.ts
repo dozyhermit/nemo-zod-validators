@@ -1,8 +1,8 @@
-import { errorHandlerDefault } from '..';
+import { errorHandlerWithSchema } from '../errorHandler';
 
 describe('errorHandlerDefault', () => {
   test('uses fieldErrors if in error', async () => {
-    const result = errorHandlerDefault({
+    const result = errorHandlerWithSchema({
       // @ts-ignore intentionally fudged, type errors expected
       error: {
         flatten: () => ({
@@ -16,7 +16,7 @@ describe('errorHandlerDefault', () => {
   });
 
   test('uses DEFAULT_ERROR_MESSAGE if flatten not in error', async () => {
-    const result = errorHandlerDefault({
+    const result = errorHandlerWithSchema({
       // @ts-ignore intentionally fudged, type errors expected
       error: {},
     });
@@ -25,7 +25,7 @@ describe('errorHandlerDefault', () => {
   });
 
   test('uses DEFAULT_ERROR_MESSAGE if fieldErrors not in flatten', async () => {
-    const result = errorHandlerDefault({
+    const result = errorHandlerWithSchema({
       error: {
         // @ts-ignore intentionally fudged, type errors expected
         flatten: () => ({}),
@@ -36,7 +36,7 @@ describe('errorHandlerDefault', () => {
   });
 
   test('uses DEFAULT_ERROR_MESSAGE if fieldErrors is in flatten but undefined', async () => {
-    const result = errorHandlerDefault({
+    const result = errorHandlerWithSchema({
       error: {
         // @ts-ignore intentionally fudged, type errors expected
         flatten: () => ({ fieldErrors: undefined }),
@@ -47,7 +47,7 @@ describe('errorHandlerDefault', () => {
   });
 
   test('uses DEFAULT_ERROR_MESSAGE if fieldErrors is in flatten but empty string', async () => {
-    const result = errorHandlerDefault({
+    const result = errorHandlerWithSchema({
       error: {
         // @ts-ignore intentionally fudged, type errors expected
         flatten: () => ({ fieldErrors: '' }),
@@ -58,7 +58,7 @@ describe('errorHandlerDefault', () => {
   });
 
   test('uses DEFAULT_ERROR_MESSAGE if fieldErrors is in flatten but empty object', async () => {
-    const result = errorHandlerDefault({
+    const result = errorHandlerWithSchema({
       error: {
         // @ts-ignore intentionally fudged, type errors expected
         flatten: () => ({ fieldErrors: {} }),

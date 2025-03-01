@@ -1,7 +1,7 @@
-import { validateHeaders } from '..';
-import { errorHandler } from './mocks/handlers';
+import { validateHeaders } from '../validateHeaders';
+import { errorHandler } from './mocks/errorHandler';
 import {
-  SchemaType,
+  type SchemaType,
   schema,
   schemaWithIntentionallyBrokenSafeParse,
 } from './mocks/schema';
