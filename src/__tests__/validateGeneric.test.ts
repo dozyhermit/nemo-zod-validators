@@ -1,7 +1,7 @@
-import { validateGeneric } from '..';
-import { errorHandler } from './mocks/handlers';
+import { validateGeneric } from '../validateGeneric';
+import { errorHandler } from './mocks/errorHandler';
 import {
-  SchemaType,
+  type SchemaType,
   schema,
   schemaWithIntentionallyBrokenSafeParse,
 } from './mocks/schema';

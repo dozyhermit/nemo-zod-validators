@@ -1,7 +1,7 @@
-import { validateParams } from '..';
-import { errorHandler } from './mocks/handlers';
+import { validateParams } from '../validateParams';
+import { errorHandler } from './mocks/errorHandler';
 import {
-  SchemaType,
+  type SchemaType,
   schema,
   schemaWithIntentionallyBrokenSafeParse,
 } from './mocks/schema';

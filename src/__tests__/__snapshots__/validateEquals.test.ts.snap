@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validateEquals with custom error handler fails validation when two values do not equal 1`] = `
+{
+  "message": "Invalid equals!",
+}
+`;
