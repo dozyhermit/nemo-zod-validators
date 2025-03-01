@@ -5,3 +5,6 @@ export const errorHandler = ({}: SafeParseReturnType<
   Record<string, any>,
   SchemaType
 >) => Response.json({ message: 'Invalid validation!' });
+
+export const errorHandlerEquals = () =>
+  Response.json({ message: 'Invalid equals!' });
