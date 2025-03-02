@@ -1,9 +1,8 @@
 import type { SafeParseReturnType } from 'zod';
-import { SchemaType } from './schema';
 
-export const errorHandler = ({}: SafeParseReturnType<
+export const errorHandler = <T>({}: SafeParseReturnType<
   Record<string, any>,
-  SchemaType
+  T
 >) => Response.json({ message: 'Invalid validation!' });
 
 export const errorHandlerEquals = () =>
