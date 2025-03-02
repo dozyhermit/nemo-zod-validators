@@ -13,7 +13,11 @@ describe('validateHeaders', () => {
     const result = await action({
       request: {
         // @ts-ignore type inconsistencies due to mocking headers
-        headers: { Number: 123, String: 'Hello', AdvancedString: '123456' },
+        headers: Object.entries({
+          Number: 123,
+          String: 'Hello',
+          AdvancedString: '123456',
+        }),
       },
     });
 
@@ -26,7 +30,11 @@ describe('validateHeaders', () => {
     const result = await action({
       request: {
         // @ts-ignore type inconsistencies due to mocking headers
-        headers: { Number: 123, String: 'Hello', AdvancedString: 'World' },
+        headers: Object.entries({
+          Number: 123,
+          String: 'Hello',
+          AdvancedString: 'World',
+        }),
       },
     });
 
@@ -42,7 +50,11 @@ describe('validateHeaders', () => {
     const result = await action({
       request: {
         // @ts-ignore type inconsistencies due to mocking body
-        body: { Number: 123, String: 'Hello', AdvancedString: 'World' },
+        body: Object.entries({
+          Number: 123,
+          String: 'Hello',
+          AdvancedString: 'World',
+        }),
       },
     });
 
@@ -56,7 +68,11 @@ describe('validateHeaders', () => {
       const result = await action({
         request: {
           // @ts-ignore type inconsistencies due to mocking headers
-          headers: { Number: 123, String: 'Hello', AdvancedString: '123456' },
+          headers: Object.entries({
+            Number: 123,
+            String: 'Hello',
+            AdvancedString: '123456',
+          }),
         },
       });
 
@@ -69,7 +85,11 @@ describe('validateHeaders', () => {
       const result = await action({
         request: {
           // @ts-ignore type inconsistencies due to mocking headers
-          headers: { Number: 123, String: 'Hello', AdvancedString: 'World' },
+          headers: Object.entries({
+            Number: 123,
+            String: 'Hello',
+            AdvancedString: 'World',
+          }),
         },
       });
 

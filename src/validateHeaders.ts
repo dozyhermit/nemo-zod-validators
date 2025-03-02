@@ -16,7 +16,7 @@ export const validateHeaders = <T>({
 }: ValidateHeaders<T>) => {
   return async ({ request }: MiddlewareFunctionProps) =>
     validateGeneric({
-      data: request.headers as T,
+      data: Object.fromEntries(request?.headers || []) as T,
       schema,
       errorHandler,
     });
