@@ -1,8 +1,8 @@
 import { validateCookies } from '../validateCookies';
 import { errorHandler } from './mocks/errorHandler';
 import {
-  type SchemaType,
-  schema,
+  type CookieSchemaType as SchemaType,
+  cookieSchema as schema,
   schemaWithIntentionallyBrokenSafeParse,
 } from './mocks/schema';
 
@@ -13,7 +13,9 @@ describe('validateCookies', () => {
     const result = await action({
       request: {
         // @ts-ignore type inconsistencies due to mocking body
-        cookies: { Number: 123, String: 'Hello', AdvancedString: '123456' },
+        cookies: {
+          toString: () => 'Number=123; String=Hello; AdvancedString=123456',
+        },
       },
     });
 
@@ -26,7 +28,9 @@ describe('validateCookies', () => {
     const result = await action({
       request: {
         // @ts-ignore type inconsistencies due to mocking body
-        cookies: { Number: 123, String: 'Hello', AdvancedString: 'World' },
+        cookies: {
+          toString: () => 'Number=123; String=Hello; AdvancedString=World',
+        },
       },
     });
 
@@ -42,7 +46,9 @@ describe('validateCookies', () => {
     const result = await action({
       request: {
         // @ts-ignore type inconsistencies due to mocking body
-        cookies: { Number: 123, String: 'Hello', AdvancedString: 'World' },
+        cookies: {
+          toString: () => 'Number=123; String=Hello; AdvancedString=World',
+        },
       },
     });
 
@@ -56,7 +62,9 @@ describe('validateCookies', () => {
       const result = await action({
         request: {
           // @ts-ignore type inconsistencies due to mocking body
-          cookies: { Number: 123, String: 'Hello', AdvancedString: '123456' },
+          cookies: {
+            toString: () => 'Number=123; String=Hello; AdvancedString=123456',
+          },
         },
       });
 
@@ -69,7 +77,9 @@ describe('validateCookies', () => {
       const result = await action({
         request: {
           // @ts-ignore type inconsistencies due to mocking body
-          cookies: { Number: 123, String: 'Hello', AdvancedString: 'World' },
+          cookies: {
+            toString: () => 'Number=123; String=Hello; AdvancedString=World',
+          },
         },
       });
 
