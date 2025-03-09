@@ -1,19 +1,8 @@
-import { MiddlewareFunctionProps } from '@rescale/nemo';
-import type { ValidateWithSchema } from './types';
-import { validateGeneric } from './validateGeneric';
-
-type ValidateParams<T> = ValidateWithSchema<T>;
+import { validatePath } from './validatePath';
 
 /**
- * Validates the `request.params()` function inside a `NextRequest` typed request using `zod.safeParse`.
+ * @deprecated Deprecated as of version 1.2.0.
  *
- * @param {T} schema The schema doing the validating
- * @param {Function} errorHandler A custom error function
+ * Please use `validatePath`, which is exactly the same but with a more appropriate name.
  */
-export const validateParams = <T>({
-  schema,
-  errorHandler,
-}: ValidateParams<T>) => {
-  return async ({ params }: MiddlewareFunctionProps) =>
-    validateGeneric({ data: params() as T, schema, errorHandler });
-};
+export const validateParams = validatePath;

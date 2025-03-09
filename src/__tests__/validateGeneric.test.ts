@@ -28,7 +28,7 @@ describe('validateGeneric', () => {
   test('triggers validation error with incorrect data and uses DEFAULT_ERROR_MESSAGE', async () => {
     const result = validateGeneric<SchemaType>({
       data: { Number: 123, String: 'Hello', AdvancedString: 'World' },
-      // @ts-ignore
+      // @ts-expect-error intentionally broken schema
       schema: schemaWithIntentionallyBrokenSafeParse,
     });
 
