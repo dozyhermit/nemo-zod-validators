@@ -12,7 +12,7 @@ describe('validateBody', () => {
 
     const result = await action({
       request: {
-        // @ts-ignore type inconsistencies due to mocking body
+        // @ts-expect-error type inconsistencies due to mocking body
         body: { Number: 123, String: 'Hello', AdvancedString: '123456' },
       },
     });
@@ -25,7 +25,7 @@ describe('validateBody', () => {
 
     const result = await action({
       request: {
-        // @ts-ignore type inconsistencies due to mocking body
+        // @ts-expect-error type inconsistencies due to mocking body
         body: { Number: 123, String: 'Hello', AdvancedString: 'World' },
       },
     });
@@ -35,13 +35,13 @@ describe('validateBody', () => {
 
   test('triggers validation error with incorrect data and uses DEFAULT_ERROR_MESSAGE', async () => {
     const action = validateBody<SchemaType>({
-      // @ts-ignore
+      // @ts-expect-error intentionally broken schema
       schema: schemaWithIntentionallyBrokenSafeParse,
     });
 
     const result = await action({
       request: {
-        // @ts-ignore type inconsistencies due to mocking body
+        // @ts-expect-error type inconsistencies due to mocking body
         body: { Number: 123, String: 'Hello', AdvancedString: 'World' },
       },
     });
@@ -55,7 +55,7 @@ describe('validateBody', () => {
 
       const result = await action({
         request: {
-          // @ts-ignore type inconsistencies due to mocking body
+          // @ts-expect-error type inconsistencies due to mocking body
           body: { Number: 123, String: 'Hello', AdvancedString: '123456' },
         },
       });
@@ -68,7 +68,7 @@ describe('validateBody', () => {
 
       const result = await action({
         request: {
-          // @ts-ignore type inconsistencies due to mocking body
+          // @ts-expect-error type inconsistencies due to mocking body
           body: { Number: 123, String: 'Hello', AdvancedString: 'World' },
         },
       });

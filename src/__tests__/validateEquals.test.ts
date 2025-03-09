@@ -10,7 +10,7 @@ describe('validateEquals', () => {
 
     const result = await action({
       request: {
-        // @ts-ignore type inconsistencies due to mocking body
+        // @ts-expect-error type inconsistencies due to mocking body
         headers: { get: () => 'Hello World' },
       },
     });
@@ -26,7 +26,7 @@ describe('validateEquals', () => {
 
     const result = await action({
       request: {
-        // @ts-ignore type inconsistencies due to mocking body
+        // @ts-expect-error type inconsistencies due to mocking body
         headers: { get: () => 'Invalid' },
       },
     });
@@ -44,7 +44,7 @@ describe('validateEquals', () => {
 
       const result = await action({
         request: {
-          // @ts-ignore type inconsistencies due to mocking body
+          // @ts-expect-error type inconsistencies due to mocking body
           headers: { get: () => 'Hello World' },
         },
       });
@@ -61,7 +61,7 @@ describe('validateEquals', () => {
 
       const result = await action({
         request: {
-          // @ts-ignore type inconsistencies due to mocking body
+          // @ts-expect-error type inconsistencies due to mocking body
           headers: { get: () => 'Invalid' },
         },
       });

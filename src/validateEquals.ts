@@ -6,7 +6,7 @@ import type { ValidateWithTransform } from './types';
 type ValidateEquals<T> = ValidateWithTransform<T>;
 
 /**
- * Validates a local variable against a variable inside a `NextRequest` typed request using the `===` operator.
+ * Validates a local variable against a variable inside a `NextRequest` request using the `===` operator.
  *
  * @param {T} value The value being verified
  * @param {Function} transform How to retrieve a value out of a request

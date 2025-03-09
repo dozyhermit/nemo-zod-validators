@@ -1,4 +1,4 @@
-import { validateParams } from '../validateParams';
+import { validatePath } from '../validatePath';
 import { errorHandler } from './mocks/errorHandler';
 import {
   type SchemaType,
@@ -6,9 +6,9 @@ import {
   schemaWithIntentionallyBrokenSafeParse,
 } from './mocks/schema';
 
-describe('validateParams', () => {
+describe('validatePath', () => {
   test('passes validation with correct data', async () => {
-    const action = validateParams<SchemaType>({ schema });
+    const action = validatePath<SchemaType>({ schema });
 
     const result = await action({
       params: () => ({
@@ -23,7 +23,7 @@ describe('validateParams', () => {
   });
 
   test('triggers validation error with incorrect data', async () => {
-    const action = validateParams<SchemaType>({ schema });
+    const action = validatePath<SchemaType>({ schema });
 
     const result = await action({
       params: () => ({
@@ -38,8 +38,8 @@ describe('validateParams', () => {
   });
 
   test('triggers validation error with incorrect data and uses DEFAULT_ERROR_MESSAGE', async () => {
-    const action = validateParams<SchemaType>({
-      // @ts-expect-error
+    const action = validatePath<SchemaType>({
+      // @ts-expect-error intentionally broken schema
       schema: schemaWithIntentionallyBrokenSafeParse,
     });
 
@@ -57,7 +57,7 @@ describe('validateParams', () => {
 
   describe('with custom error handler', () => {
     test('passes validation with correct data', async () => {
-      const action = validateParams<SchemaType>({ schema, errorHandler });
+      const action = validatePath<SchemaType>({ schema, errorHandler });
 
       const result = await action({
         params: () => ({
@@ -72,7 +72,7 @@ describe('validateParams', () => {
     });
 
     test('triggers validation error with incorrect data', async () => {
-      const action = validateParams<SchemaType>({ schema, errorHandler });
+      const action = validatePath<SchemaType>({ schema, errorHandler });
 
       const result = await action({
         params: () => ({

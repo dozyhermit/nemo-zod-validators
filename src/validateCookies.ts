@@ -6,7 +6,7 @@ import { validateGeneric } from './validateGeneric';
 type ValidateCookies<T> = ValidateWithSchema<T>;
 
 /**
- * Validates the `request.cookies` object inside a `NextRequest` typed request using `zod.safeParse`.
+ * Validates the `request.cookies` object inside a `NextRequest` request using `zod.safeParse`.
  *
  * @param {T} schema The schema doing the validating
  * @param {Function} errorHandler A custom error function
