@@ -18,9 +18,9 @@ import { createMiddleware } from '@rescale/nemo';
 import { validateParams } from '@dozyhermit/nemo-zod-validators';
 
 const schema = z.object({
-  world: z
+  hello: z
     .string({
-      invalid_type_error: 'Invalid world',
+      invalid_type_error: 'Invalid hello',
     })
 });
 
@@ -39,30 +39,30 @@ export const middleware = createMiddleware(middlewares);
 
 ## validateGeneric
 
-Validates data with a zod schema using `safeParse`. This is the base for all the schema-based validators in this package.
+Validates data against a zod schema using `safeParse`. This is the base for all the schema based validators in this package.
 
-The return type is either `Response` or `NextResponse.next()`.
+The return type can be either `Response` or `NextResponse.next()`.
 
 ### Example
 
 ```
 const schema = z.object({
-  world: z
+  hello: z
     .string({
-      invalid_type_error: 'Invalid world',
+      invalid_type_error: 'Invalid hello',
     })
 });
 
 type SchemaType = z.infer<typeof Schema>;
 
-validateGeneric<SchemaType>({ data: { world: 'Hello' }, schema });
+validateGeneric<SchemaType>({ data: { hello: 'World' }, schema });
 ```
 
 ### Creating Your Own Validator
 
 This couldn't be simpler, but the only thing you have to remember is how to prevent `validateGeneric` from executing immediately.
 
-As an example, let's create a `validateCookies` validator:
+For example, let's create a `validateCookies` validator:
 
 ```
 type ValidateCookies<T> = ValidateWithSchema<T>;
@@ -80,7 +80,7 @@ export const validateCookies = <T>({
 };
 ```
 
-We return an asynchronous function because when we use it like below:
+In the above, we return an asynchronous function because when we use it like below:
 
 ```
 const middlewares = {
@@ -90,21 +90,23 @@ const middlewares = {
 };
 ```
 
-It means `validateGeneric` is not immediately executed when the api starts. It only ever runs when we make a request to `/api/hello/:world`.
+it means `validateGeneric` is not immediately executed when the api starts; it will only ever run when we make a request to `/api/hello/:world`.
+
+_Note: This example validator doesn't work. See `validateCookies` below._
 
 ## validateBody
 
-Validates the `request.body` object inside a `NextRequest` typed request using `zod.safeParse`.
+Validates the `request.body` object inside a `NextRequest` request using `zod.safeParse`.
 
-The return type is either `Response` or `NextResponse.next()`.
+The return type can be either `Response` or `NextResponse.next()`.
 
 ### Example
 
 ```
 const schema = z.object({
-  world: z
+  hello: z
     .string({
-      invalid_type_error: 'Invalid world',
+      invalid_type_error: 'Invalid hello',
     })
 });
 
@@ -113,61 +115,19 @@ type SchemaType = z.infer<typeof Schema>;
 validateBody<SchemaType>({ schema });
 ```
 
-## validateHeaders
-
-Validates the `request.headers` object inside a `NextRequest` typed request using `zod.safeParse`.
-
-The return type is either `Response` or `NextResponse.next()`.
-
-### Example
-
-```
-const schema = z.object({
-  world: z
-    .string({
-      invalid_type_error: 'Invalid world',
-    })
-});
-
-type SchemaType = z.infer<typeof Schema>;
-
-validateHeaders<SchemaType>({ schema });
-```
-
-## validateParams
-
-Validates the `request.params()` function inside a `NextRequest` typed request using `zod.safeParse`.
-
-The return type is either `Response` or `NextResponse.next()`.
-
-### Example
-
-```
-const schema = z.object({
-  world: z
-    .string({
-      invalid_type_error: 'Invalid world',
-    })
-});
-
-type SchemaType = z.infer<typeof Schema>;
-
-validateParams<SchemaType>({ schema });
-```
-
 ## validateCookies
 
-Validates the `request.cookies` object inside a `NextRequest` typed request using `zod.safeParse`.
+Validates the `request.cookies` object inside a `NextRequest` request using `zod.safeParse`.
 
-The return type is either `Response` or `NextResponse.next()`.
+The return type can be either `Response` or `NextResponse.next()`.
 
 ### Example
 
 ```
 const schema = z.object({
-  world: z
+  hello: z
     .string({
-      invalid_type_error: 'Invalid world',
+      invalid_type_error: 'Invalid hello',
     })
 });
 
@@ -178,9 +138,9 @@ validateCookies<SchemaType>({ schema });
 
 ## validateEquals
 
-Validates a local variable against a variable inside a `NextRequest` typed request using the `===` operator.
+Validates a local variable against a variable inside a `NextRequest` request using the `===` operator.
 
-The return type is either `Response` or `NextResponse.next()`.
+The return type can be either `Response` or `NextResponse.next()`.
 
 ### Example
 
@@ -189,4 +149,75 @@ const value = process.env.MY_ENV_VAR;
 const transform = (request) => request.headers.get('MY_HEADER');
 
 validateEquals<string | null>({ value, transform });
+```
+
+## validateHeaders
+
+Validates the `request.headers` tuple inside a `NextRequest` request using `zod.safeParse`.
+
+The return type can be either `Response` or `NextResponse.next()`.
+
+### Example
+
+```
+const schema = z.object({
+  hello: z
+    .string({
+      invalid_type_error: 'Invalid hello',
+    })
+});
+
+type SchemaType = z.infer<typeof Schema>;
+
+validateHeaders<SchemaType>({ schema });
+```
+
+## validateParams
+
+Deprecated. Please use `validatePath` instead.
+
+`validateParams` and `validatePath` are exactly the same function, but it has been renamed to be more appropriate.
+
+Feel free to keep using it, as it likely won't ever be removed.
+
+## validatePath
+
+Validates the `request.params()` function inside a `NextRequest` request using `zod.safeParse`.
+
+The return type can be either `Response` or `NextResponse.next()`.
+
+### Example
+
+```
+const schema = z.object({
+  hello: z
+    .string({
+      invalid_type_error: 'Invalid hello',
+    })
+});
+
+type SchemaType = z.infer<typeof Schema>;
+
+validatePath<SchemaType>({ schema });
+```
+
+## validateQuery
+
+Validates `request.nextUrl.searchParams` (URLSearchParams) inside a `NextRequest` request using `zod.safeParse`.
+
+The return type can be either `Response` or `NextResponse.next()`.
+
+### Example
+
+```
+const schema = z.object({
+  hello: z
+    .string({
+      invalid_type_error: 'Invalid hello',
+    })
+});
+
+type SchemaType = z.infer<typeof Schema>;
+
+validateQuery<SchemaType>({ schema });
 ```

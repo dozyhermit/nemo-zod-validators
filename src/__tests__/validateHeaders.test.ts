@@ -12,7 +12,7 @@ describe('validateHeaders', () => {
 
     const result = await action({
       request: {
-        // @ts-ignore type inconsistencies due to mocking headers
+        // @ts-expect-error type inconsistencies due to mocking headers
         headers: Object.entries({
           Number: 123,
           String: 'Hello',
@@ -29,7 +29,7 @@ describe('validateHeaders', () => {
 
     const result = await action({
       request: {
-        // @ts-ignore type inconsistencies due to mocking headers
+        // @ts-expect-error type inconsistencies due to mocking headers
         headers: Object.entries({
           Number: 123,
           String: 'Hello',
@@ -43,13 +43,13 @@ describe('validateHeaders', () => {
 
   test('triggers validation error with incorrect data and uses DEFAULT_ERROR_MESSAGE', async () => {
     const action = validateHeaders<SchemaType>({
-      // @ts-ignore
+      // @ts-expect-error
       schema: schemaWithIntentionallyBrokenSafeParse,
     });
 
     const result = await action({
       request: {
-        // @ts-ignore type inconsistencies due to mocking body
+        // @ts-expect-error type inconsistencies due to mocking body
         body: Object.entries({
           Number: 123,
           String: 'Hello',
@@ -67,7 +67,7 @@ describe('validateHeaders', () => {
 
       const result = await action({
         request: {
-          // @ts-ignore type inconsistencies due to mocking headers
+          // @ts-expect-error type inconsistencies due to mocking headers
           headers: Object.entries({
             Number: 123,
             String: 'Hello',
@@ -84,7 +84,7 @@ describe('validateHeaders', () => {
 
       const result = await action({
         request: {
-          // @ts-ignore type inconsistencies due to mocking headers
+          // @ts-expect-error type inconsistencies due to mocking headers
           headers: Object.entries({
             Number: 123,
             String: 'Hello',

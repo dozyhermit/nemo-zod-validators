@@ -4,6 +4,8 @@ import { validateEquals } from './validateEquals';
 import { validateGeneric } from './validateGeneric';
 import { validateHeaders } from './validateHeaders';
 import { validateParams } from './validateParams';
+import { validatePath } from './validatePath';
+import { validateQuery } from './validateQuery';
 
 export {
   validateBody,
@@ -12,4 +14,6 @@ export {
   validateGeneric,
   validateHeaders,
   validateParams,
+  validatePath,
+  validateQuery,
 };
