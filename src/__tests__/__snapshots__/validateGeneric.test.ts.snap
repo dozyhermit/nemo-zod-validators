@@ -21,3 +21,15 @@ exports[`validateGeneric with custom error handler triggers validation error wit
   "message": "Invalid validation!",
 }
 `;
+
+exports[`validateGeneric with errorHandlerBuiltIn as formErrors triggers validation error with incorrect data 1`] = `
+{
+  "message": "Validation has failed",
+}
+`;
+
+exports[`validateGeneric with errorHandlerBuiltIn as formErrors triggers validation error with incorrect data and custom error handler 1`] = `
+{
+  "message": "Invalid validation!",
+}
+`;
