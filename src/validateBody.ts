@@ -12,5 +12,9 @@ type ValidateBody<T> = ValidateWithSchema<T>;
  */
 export const validateBody = <T>({ schema, errorHandler }: ValidateBody<T>) => {
   return async ({ request }: MiddlewareFunctionProps) =>
-    validateGeneric({ data: request.body as T, schema, errorHandler });
+    validateGeneric({
+      data: (await request.json()) as T,
+      schema,
+      errorHandler,
+    });
 };
