@@ -13,7 +13,11 @@ describe('validateBody', () => {
     const result = await action({
       request: {
         // @ts-expect-error type inconsistencies due to mocking body
-        body: { Number: 123, String: 'Hello', AdvancedString: '123456' },
+        json: () => ({
+          Number: 123,
+          String: 'Hello',
+          AdvancedString: '123456',
+        }),
       },
     });
 
@@ -26,7 +30,7 @@ describe('validateBody', () => {
     const result = await action({
       request: {
         // @ts-expect-error type inconsistencies due to mocking body
-        body: { Number: 123, String: 'Hello', AdvancedString: 'World' },
+        json: () => ({ Number: 123, String: 'Hello', AdvancedString: 'World' }),
       },
     });
 
@@ -42,7 +46,7 @@ describe('validateBody', () => {
     const result = await action({
       request: {
         // @ts-expect-error type inconsistencies due to mocking body
-        body: { Number: 123, String: 'Hello', AdvancedString: 'World' },
+        json: () => ({ Number: 123, String: 'Hello', AdvancedString: 'World' }),
       },
     });
 
@@ -56,7 +60,11 @@ describe('validateBody', () => {
       const result = await action({
         request: {
           // @ts-expect-error type inconsistencies due to mocking body
-          body: { Number: 123, String: 'Hello', AdvancedString: '123456' },
+          json: () => ({
+            Number: 123,
+            String: 'Hello',
+            AdvancedString: '123456',
+          }),
         },
       });
 
@@ -69,7 +77,11 @@ describe('validateBody', () => {
       const result = await action({
         request: {
           // @ts-expect-error type inconsistencies due to mocking body
-          body: { Number: 123, String: 'Hello', AdvancedString: 'World' },
+          json: () => ({
+            Number: 123,
+            String: 'Hello',
+            AdvancedString: 'World',
+          }),
         },
       });
 
