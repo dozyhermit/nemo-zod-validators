@@ -92,7 +92,7 @@ _Note: This example validator doesn't work. See `validateCookies` below._
 
 ## validateBody
 
-Validates the `request.body` object inside a `NextRequest` request using `zod.safeParse`.
+Validates the `request.json()` function inside a `NextRequest` request using `zod.safeParse`.
 
 The return type can be either `Response` or `NextResponse.next()`.
 
