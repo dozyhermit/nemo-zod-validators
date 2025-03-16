@@ -6,30 +6,29 @@ So, this just makes adding validation even easier.
 
 # Installation
 
-`npm i @dozyhermit/nemo-zod-validators`
+```bash
+npm i @dozyhermit/nemo-zod-validators
+```
 
 # Usage
 
 In your `middleware.ts` Next.js project file:
 
-```
+```typescript
 import { z } from 'zod';
 import { createMiddleware } from '@rescale/nemo';
 import { validateParams } from '@dozyhermit/nemo-zod-validators';
 
 const schema = z.object({
-  hello: z
-    .string({
-      invalid_type_error: 'Invalid hello',
-    })
+  hello: z.string({
+    invalid_type_error: 'Invalid hello',
+  }),
 });
 
 type SchemaType = z.infer<typeof Schema>;
 
 const middlewares = {
-  '/api/hello/:world': [
-    validateParams<SchemaType>({ schema }),
-  ],
+  '/api/hello/:world': [validateParams<SchemaType>({ schema })],
 };
 
 export const middleware = createMiddleware(middlewares);
@@ -45,12 +44,11 @@ The return type can be either `Response` or `NextResponse.next()`.
 
 ### Example
 
-```
+```typescript
 const schema = z.object({
-  hello: z
-    .string({
-      invalid_type_error: 'Invalid hello',
-    })
+  hello: z.string({
+    invalid_type_error: 'Invalid hello',
+  }),
 });
 
 type SchemaType = z.infer<typeof Schema>;
@@ -64,7 +62,7 @@ This couldn't be simpler, but the only thing you have to remember is how to prev
 
 For example, let's create a `validateCookies` validator:
 
-```
+```typescript
 type ValidateCookies<T> = ValidateWithSchema<T>;
 
 export const validateCookies = <T>({
@@ -82,11 +80,9 @@ export const validateCookies = <T>({
 
 In the above, we return an asynchronous function because when we use it like below:
 
-```
+```typescript
 const middlewares = {
-  '/api/hello/:world': [
-    validateCookies<SchemaType>({ schema }),
-  ],
+  '/api/hello/:world': [validateCookies<SchemaType>({ schema })],
 };
 ```
 
@@ -102,12 +98,11 @@ The return type can be either `Response` or `NextResponse.next()`.
 
 ### Example
 
-```
+```typescript
 const schema = z.object({
-  hello: z
-    .string({
-      invalid_type_error: 'Invalid hello',
-    })
+  hello: z.string({
+    invalid_type_error: 'Invalid hello',
+  }),
 });
 
 type SchemaType = z.infer<typeof Schema>;
@@ -123,12 +118,11 @@ The return type can be either `Response` or `NextResponse.next()`.
 
 ### Example
 
-```
+```typescript
 const schema = z.object({
-  hello: z
-    .string({
-      invalid_type_error: 'Invalid hello',
-    })
+  hello: z.string({
+    invalid_type_error: 'Invalid hello',
+  }),
 });
 
 type SchemaType = z.infer<typeof Schema>;
@@ -144,7 +138,7 @@ The return type can be either `Response` or `NextResponse.next()`.
 
 ### Example
 
-```
+```typescript
 const value = process.env.MY_ENV_VAR;
 const transform = (request) => request.headers.get('MY_HEADER');
 
@@ -159,12 +153,11 @@ The return type can be either `Response` or `NextResponse.next()`.
 
 ### Example
 
-```
+```typescript
 const schema = z.object({
-  hello: z
-    .string({
-      invalid_type_error: 'Invalid hello',
-    })
+  hello: z.string({
+    invalid_type_error: 'Invalid hello',
+  }),
 });
 
 type SchemaType = z.infer<typeof Schema>;
@@ -188,12 +181,11 @@ The return type can be either `Response` or `NextResponse.next()`.
 
 ### Example
 
-```
+```typescript
 const schema = z.object({
-  hello: z
-    .string({
-      invalid_type_error: 'Invalid hello',
-    })
+  hello: z.string({
+    invalid_type_error: 'Invalid hello',
+  }),
 });
 
 type SchemaType = z.infer<typeof Schema>;
@@ -209,12 +201,11 @@ The return type can be either `Response` or `NextResponse.next()`.
 
 ### Example
 
-```
+```typescript
 const schema = z.object({
-  hello: z
-    .string({
-      invalid_type_error: 'Invalid hello',
-    })
+  hello: z.string({
+    invalid_type_error: 'Invalid hello',
+  }),
 });
 
 type SchemaType = z.infer<typeof Schema>;
