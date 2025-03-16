@@ -5,7 +5,7 @@ import { validateGeneric } from './validateGeneric';
 type ValidateBody<T> = ValidateWithSchema<T>;
 
 /**
- * Validates the `request.body` object inside a `NextRequest` request using `zod.safeParse`.
+ * Validates the `request.json()` function inside a `NextRequest` request using `zod.safeParse`.
  *
  * @param {T} schema The schema doing the validating
  * @param {Function} errorHandler A custom error function
