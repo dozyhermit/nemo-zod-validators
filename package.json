@@ -1,6 +1,6 @@
 {
   "name": "@dozyhermit/nemo-zod-validators",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "A collection of middleware validators made with zod and @rescale/nemo for Next.js",
   "license": "MIT",
   "author": "dozyhermit (https://github.com/dozyhermit)",
