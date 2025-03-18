@@ -17,18 +17,18 @@ In your `middleware.ts` Next.js project file:
 ```typescript
 import { z } from 'zod';
 import { createMiddleware } from '@rescale/nemo';
-import { validateParams } from '@dozyhermit/nemo-zod-validators';
+import { validatePath } from '@dozyhermit/nemo-zod-validators';
 
 const schema = z.object({
-  hello: z.string({
-    invalid_type_error: 'Invalid hello',
+  world: z.string({
+    invalid_type_error: 'Invalid world',
   }),
 });
 
 type SchemaType = z.infer<typeof Schema>;
 
 const middlewares = {
-  '/api/hello/:world': [validateParams<SchemaType>({ schema })],
+  '/api/hello/:world': [validatePath<SchemaType>({ schema })],
 };
 
 export const middleware = createMiddleware(middlewares);
