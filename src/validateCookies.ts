@@ -1,5 +1,5 @@
-import { MiddlewareFunctionProps } from '@rescale/nemo';
 import { parse } from 'cookie';
+import { NextRequest } from 'next/server';
 import { ValidateWithSchema } from './types';
 import { validateGeneric } from './validateGeneric';
 
@@ -15,7 +15,7 @@ export const validateCookies = <T>({
   schema,
   errorHandler,
 }: ValidateCookies<T>) => {
-  return async ({ request }: MiddlewareFunctionProps) =>
+  return async (request: NextRequest) =>
     validateGeneric({
       data: parse(request?.cookies?.toString() || '') as T,
       schema,

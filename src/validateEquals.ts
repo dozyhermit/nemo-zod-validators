@@ -1,5 +1,4 @@
-import { MiddlewareFunctionProps } from '@rescale/nemo';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { errorHandlerWithTransform } from './errorHandler';
 import type { ValidateWithTransform } from './types';
 
@@ -20,7 +19,7 @@ export const validateEquals = <T>({
   transform,
   errorHandler,
 }: ValidateEquals<T>) => {
-  return async ({ request }: MiddlewareFunctionProps) => {
+  return async (request: NextRequest) => {
     if (value !== transform(request)) {
       if (errorHandler) {
         return errorHandler();

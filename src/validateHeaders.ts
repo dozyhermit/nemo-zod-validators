@@ -1,4 +1,4 @@
-import { MiddlewareFunctionProps } from '@rescale/nemo';
+import { NextRequest } from 'next/server';
 import type { ValidateWithSchema } from './types';
 import { validateGeneric } from './validateGeneric';
 
@@ -14,7 +14,7 @@ export const validateHeaders = <T>({
   schema,
   errorHandler,
 }: ValidateHeaders<T>) => {
-  return async ({ request }: MiddlewareFunctionProps) =>
+  return async (request: NextRequest) =>
     validateGeneric({
       data: Object.fromEntries(request?.headers || []) as T,
       schema,
