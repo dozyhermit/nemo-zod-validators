@@ -23,6 +23,8 @@ export const validateGeneric = <T>({
 }: ValidateGeneric<T>): ValidateReturnType => {
   const validationResult = schema.safeParse(data as T);
 
+  console.log(data, validationResult);
+
   if (validationResult.error) {
     if (errorHandler) {
       return errorHandler(validationResult);

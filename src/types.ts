@@ -1,5 +1,4 @@
-import { MiddlewareFunctionProps } from '@rescale/nemo';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { SafeParseReturnType, z } from 'zod';
 
 export type ZodError = z.SafeParseError<Record<string, z.ZodTypeAny>>;
@@ -20,6 +19,6 @@ export type ValidateWithSchema<T> = {
 
 export type ValidateWithTransform<T> = {
   value: T;
-  transform: (request: MiddlewareFunctionProps['request']) => T;
+  transform: (request: NextRequest) => T;
   errorHandler?: () => ValidateReturnType;
 };

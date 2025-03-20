@@ -11,11 +11,9 @@ describe('validateCookies', () => {
     const action = validateCookies<SchemaType>({ schema });
 
     const result = await action({
-      request: {
-        // @ts-expect-error type inconsistencies due to mocking body
-        cookies: {
-          toString: () => 'Number=123; String=Hello; AdvancedString=123456',
-        },
+      // @ts-expect-error type inconsistencies due to mocking function props
+      cookies: {
+        toString: () => 'Number=123; String=Hello; AdvancedString=123456',
       },
     });
 
@@ -26,11 +24,9 @@ describe('validateCookies', () => {
     const action = validateCookies<SchemaType>({ schema });
 
     const result = await action({
-      request: {
-        // @ts-expect-error type inconsistencies due to mocking body
-        cookies: {
-          toString: () => 'Number=123; String=Hello; AdvancedString=World',
-        },
+      // @ts-expect-error type inconsistencies due to mocking function props
+      cookies: {
+        toString: () => 'Number=123; String=Hello; AdvancedString=World',
       },
     });
 
@@ -44,11 +40,9 @@ describe('validateCookies', () => {
     });
 
     const result = await action({
-      request: {
-        // @ts-expect-error type inconsistencies due to mocking body
-        cookies: {
-          toString: () => 'Number=123; String=Hello; AdvancedString=World',
-        },
+      // @ts-expect-error type inconsistencies due to mocking function props
+      cookies: {
+        toString: () => 'Number=123; String=Hello; AdvancedString=World',
       },
     });
 
@@ -60,11 +54,9 @@ describe('validateCookies', () => {
       const action = validateCookies<SchemaType>({ schema, errorHandler });
 
       const result = await action({
-        request: {
-          // @ts-expect-error type inconsistencies due to mocking body
-          cookies: {
-            toString: () => 'Number=123; String=Hello; AdvancedString=123456',
-          },
+        // @ts-expect-error type inconsistencies due to mocking function props
+        cookies: {
+          toString: () => 'Number=123; String=Hello; AdvancedString=123456',
         },
       });
 
@@ -75,11 +67,9 @@ describe('validateCookies', () => {
       const action = validateCookies<SchemaType>({ schema, errorHandler });
 
       const result = await action({
-        request: {
-          // @ts-expect-error type inconsistencies due to mocking body
-          cookies: {
-            toString: () => 'Number=123; String=Hello; AdvancedString=World',
-          },
+        // @ts-expect-error type inconsistencies due to mocking function props
+        cookies: {
+          toString: () => 'Number=123; String=Hello; AdvancedString=World',
         },
       });
 

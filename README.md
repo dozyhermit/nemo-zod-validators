@@ -175,7 +175,7 @@ Feel free to keep using it, as it likely won't ever be removed.
 
 ## validatePath
 
-Validates the `request.params()` function inside a `NextRequest` request using `zod.safeParse`.
+Validates a `params` object provided by a route handler using `zod.safeParse`.
 
 The return type can be either `Response` or `NextResponse.next()`.
 

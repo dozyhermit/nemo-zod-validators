@@ -11,16 +11,14 @@ describe('validateQuery', () => {
     const action = validateQuery<SchemaType>({ schema });
 
     const result = await action({
-      request: {
-        nextUrl: {
-          searchParams: {
-            // @ts-expect-error type inconsistencies due to mocking searchParams
-            entries: () => [
-              ['Number', 123],
-              ['String', 'Hello'],
-              ['AdvancedString', '123456'],
-            ],
-          },
+      nextUrl: {
+        searchParams: {
+          // @ts-expect-error type inconsistencies due to mocking function props
+          entries: () => [
+            ['Number', 123],
+            ['String', 'Hello'],
+            ['AdvancedString', '123456'],
+          ],
         },
       },
     });
@@ -32,16 +30,14 @@ describe('validateQuery', () => {
     const action = validateQuery<SchemaType>({ schema });
 
     const result = await action({
-      request: {
-        nextUrl: {
-          searchParams: {
-            // @ts-expect-error type inconsistencies due to mocking searchParams
-            entries: () => [
-              ['Number', 123],
-              ['String', 'Hello'],
-              ['AdvancedString', 'World'],
-            ],
-          },
+      nextUrl: {
+        searchParams: {
+          // @ts-expect-error type inconsistencies due to mocking function props
+          entries: () => [
+            ['Number', 123],
+            ['String', 'Hello'],
+            ['AdvancedString', 'World'],
+          ],
         },
       },
     });
@@ -56,16 +52,14 @@ describe('validateQuery', () => {
     });
 
     const result = await action({
-      request: {
-        nextUrl: {
-          searchParams: {
-            // @ts-expect-error type inconsistencies due to mocking searchParams
-            entries: () => [
-              ['Number', 123],
-              ['String', 'Hello'],
-              ['AdvancedString', 'World'],
-            ],
-          },
+      nextUrl: {
+        searchParams: {
+          // @ts-expect-error type inconsistencies due to mocking function props
+          entries: () => [
+            ['Number', 123],
+            ['String', 'Hello'],
+            ['AdvancedString', 'World'],
+          ],
         },
       },
     });
@@ -78,16 +72,14 @@ describe('validateQuery', () => {
       const action = validateQuery<SchemaType>({ schema, errorHandler });
 
       const result = await action({
-        request: {
-          nextUrl: {
-            searchParams: {
-              // @ts-expect-error type inconsistencies due to mocking searchParams
-              entries: () => [
-                ['Number', 123],
-                ['String', 'Hello'],
-                ['AdvancedString', '123456'],
-              ],
-            },
+        nextUrl: {
+          searchParams: {
+            // @ts-expect-error type inconsistencies due to mocking function props
+            entries: () => [
+              ['Number', 123],
+              ['String', 'Hello'],
+              ['AdvancedString', '123456'],
+            ],
           },
         },
       });
@@ -99,16 +91,14 @@ describe('validateQuery', () => {
       const action = validateQuery<SchemaType>({ schema, errorHandler });
 
       const result = await action({
-        request: {
-          nextUrl: {
-            searchParams: {
-              // @ts-expect-error type inconsistencies due to mocking searchParams
-              entries: () => [
-                ['Number', 123],
-                ['String', 'Hello'],
-                ['AdvancedString', 'World'],
-              ],
-            },
+        nextUrl: {
+          searchParams: {
+            // @ts-expect-error type inconsistencies due to mocking function props
+            entries: () => [
+              ['Number', 123],
+              ['String', 'Hello'],
+              ['AdvancedString', 'World'],
+            ],
           },
         },
       });

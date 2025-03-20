@@ -1,4 +1,4 @@
-import { MiddlewareFunctionProps } from '@rescale/nemo';
+import type { NextRequest } from 'next/server';
 import type { ValidateWithSchema } from './types';
 import { validateGeneric } from './validateGeneric';
 
@@ -11,7 +11,7 @@ type ValidateBody<T> = ValidateWithSchema<T>;
  * @param {Function} errorHandler A custom error function
  */
 export const validateBody = <T>({ schema, errorHandler }: ValidateBody<T>) => {
-  return async ({ request }: MiddlewareFunctionProps) =>
+  return async (request: NextRequest) =>
     validateGeneric({
       data: (await request.json()) as T,
       schema,
