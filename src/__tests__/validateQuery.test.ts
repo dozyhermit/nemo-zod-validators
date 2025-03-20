@@ -1,5 +1,5 @@
 import { validateQuery } from '../validateQuery';
-import { errorHandler } from './mocks/errorHandler';
+import { errorHandlerCustom } from './mocks/errorHandler';
 import {
   type SchemaType,
   schema,
@@ -10,11 +10,11 @@ describe('validateQuery', () => {
   test('passes validation with correct data', async () => {
     const action = validateQuery<SchemaType>({ schema });
 
-    const result = await action({
-      request: {
+    const result = await action(
+      {
         nextUrl: {
           searchParams: {
-            // @ts-expect-error type inconsistencies due to mocking searchParams
+            // @ts-expect-error type inconsistencies due to mocking function props
             entries: () => [
               ['Number', 123],
               ['String', 'Hello'],
@@ -23,7 +23,8 @@ describe('validateQuery', () => {
           },
         },
       },
-    });
+      {}
+    );
 
     expect(result.status).toBe(200);
   });
@@ -31,11 +32,11 @@ describe('validateQuery', () => {
   test('triggers validation error with incorrect data', async () => {
     const action = validateQuery<SchemaType>({ schema });
 
-    const result = await action({
-      request: {
+    const result = await action(
+      {
         nextUrl: {
           searchParams: {
-            // @ts-expect-error type inconsistencies due to mocking searchParams
+            // @ts-expect-error type inconsistencies due to mocking function props
             entries: () => [
               ['Number', 123],
               ['String', 'Hello'],
@@ -44,7 +45,8 @@ describe('validateQuery', () => {
           },
         },
       },
-    });
+      {}
+    );
 
     expect(await result.json()).toMatchSnapshot();
   });
@@ -55,11 +57,11 @@ describe('validateQuery', () => {
       schema: schemaWithIntentionallyBrokenSafeParse,
     });
 
-    const result = await action({
-      request: {
+    const result = await action(
+      {
         nextUrl: {
           searchParams: {
-            // @ts-expect-error type inconsistencies due to mocking searchParams
+            // @ts-expect-error type inconsistencies due to mocking function props
             entries: () => [
               ['Number', 123],
               ['String', 'Hello'],
@@ -68,20 +70,21 @@ describe('validateQuery', () => {
           },
         },
       },
-    });
+      {}
+    );
 
     expect(await result.json()).toMatchSnapshot();
   });
 
   describe('with custom error handler', () => {
     test('passes validation with correct data', async () => {
-      const action = validateQuery<SchemaType>({ schema, errorHandler });
+      const action = validateQuery<SchemaType>({ schema, errorHandlerCustom });
 
-      const result = await action({
-        request: {
+      const result = await action(
+        {
           nextUrl: {
             searchParams: {
-              // @ts-expect-error type inconsistencies due to mocking searchParams
+              // @ts-expect-error type inconsistencies due to mocking function props
               entries: () => [
                 ['Number', 123],
                 ['String', 'Hello'],
@@ -90,19 +93,20 @@ describe('validateQuery', () => {
             },
           },
         },
-      });
+        {}
+      );
 
       expect(result.status).toBe(200);
     });
 
     test('triggers validation error with incorrect data', async () => {
-      const action = validateQuery<SchemaType>({ schema, errorHandler });
+      const action = validateQuery<SchemaType>({ schema, errorHandlerCustom });
 
-      const result = await action({
-        request: {
+      const result = await action(
+        {
           nextUrl: {
             searchParams: {
-              // @ts-expect-error type inconsistencies due to mocking searchParams
+              // @ts-expect-error type inconsistencies due to mocking function props
               entries: () => [
                 ['Number', 123],
                 ['String', 'Hello'],
@@ -111,7 +115,8 @@ describe('validateQuery', () => {
             },
           },
         },
-      });
+        {}
+      );
 
       expect(await result.json()).toMatchSnapshot();
     });

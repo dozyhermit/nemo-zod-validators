@@ -1,5 +1,5 @@
-import { MiddlewareFunctionProps } from '@rescale/nemo';
-import { NextResponse } from 'next/server';
+import { NemoEvent } from '@rescale/nemo';
+import { NextRequest, NextResponse } from 'next/server';
 import { errorHandlerWithTransform } from './errorHandler';
 import type { ValidateWithTransform } from './types';
 
@@ -10,7 +10,7 @@ type ValidateEquals<T> = ValidateWithTransform<T>;
  *
  * @param {T} value The value being verified
  * @param {Function} transform How to retrieve a value out of a request
- * @param {Function} errorHandler A custom error function
+ * @param {Function} errorHandlerCustom A custom error function
  *
  * @example
  * validateEquals<String | null>(env.process.MY_ENV_VAR, (request) => request.headers['MY_HEADER']));
@@ -18,17 +18,17 @@ type ValidateEquals<T> = ValidateWithTransform<T>;
 export const validateEquals = <T>({
   value,
   transform,
-  errorHandler,
+  errorHandlerCustom,
 }: ValidateEquals<T>) => {
-  return async ({ request }: MiddlewareFunctionProps) => {
-    if (value !== transform(request)) {
-      if (errorHandler) {
-        return errorHandler();
-      }
-
-      return errorHandlerWithTransform();
+  return async (request: NextRequest, _event: NemoEvent) => {
+    if (value === transform(request)) {
+      return NextResponse.next();
     }
 
-    return NextResponse.next();
+    if (errorHandlerCustom) {
+      return errorHandlerCustom();
+    }
+
+    return errorHandlerWithTransform();
   };
 };

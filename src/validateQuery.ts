@@ -1,25 +1,26 @@
-import { MiddlewareFunctionProps } from '@rescale/nemo';
+import { NemoEvent } from '@rescale/nemo';
+import { NextRequest } from 'next/server';
 import type { ValidateWithSchema } from './types';
 import { validateGeneric } from './validateGeneric';
 
-type validateQuery<T> = ValidateWithSchema<T>;
+type validateQuery = ValidateWithSchema;
 
 /**
  * Validates `request.nextUrl.searchParams` (URLSearchParams) inside a `NextRequest` request using `zod.safeParse`.
  *
  * @param {T} schema The schema doing the validating
- * @param {Function} errorHandler A custom error function
+ * @param {Function} errorHandlerCustom A custom error function
  */
 export const validateQuery = <T>({
   schema,
-  errorHandler,
-}: validateQuery<T>) => {
-  return async ({ request }: MiddlewareFunctionProps) =>
-    validateGeneric({
+  errorHandlerCustom,
+}: validateQuery) => {
+  return async (request: NextRequest, _event: NemoEvent) =>
+    validateGeneric<T>({
       data: Object.fromEntries(
         request?.nextUrl?.searchParams?.entries() || []
       ) as T,
       schema,
-      errorHandler,
+      errorHandlerCustom,
     });
 };

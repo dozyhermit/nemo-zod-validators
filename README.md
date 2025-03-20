@@ -4,6 +4,19 @@
 
 So, this just makes adding validation even easier.
 
+# Upgrading from v1.0.0 to v2.0.0
+
+If your project uses `@rescale/nemo` `v1.x.x` or `zod` `3.x.x`, please upgrade your project schemas and middleware before upgrading `@dozyhermit/nemo-zod-validators`.
+
+See:
+
+- `@rescale/nemo`: https://nemo.zanreal.com/docs/2.0
+- `zod`: https://zod.dev/v4
+
+Then, after upgrading `@dozyhermit/nemo-zod-validators` to `v2.0.0`, your schemas should behave as expected.
+
+_Note: If you're finding that your schemas aren't working as robustly as before, double check you have correctly migrated your `zod` schemas to v4._
+
 # Installation
 
 ```bash
@@ -15,13 +28,12 @@ npm i @dozyhermit/nemo-zod-validators
 In your `middleware.ts` Next.js project file:
 
 ```typescript
+import { createNEMO } from '@rescale/nemo';
 import { z } from 'zod';
-import { createMiddleware } from '@rescale/nemo';
 import { validatePath } from '@dozyhermit/nemo-zod-validators';
 
 const schema = z.object({
-  world: z.string({
-    invalid_type_error: 'Invalid world',
+    world: z.string().regex(/[0-9]+/, { error: 'Invalid world' }),
   }),
 });
 
@@ -31,7 +43,7 @@ const middlewares = {
   '/api/hello/:world': [validatePath<SchemaType>({ schema })],
 };
 
-export const middleware = createMiddleware(middlewares);
+export const middleware = createNEMO(middlewares);
 ```
 
 # Functions
@@ -46,9 +58,7 @@ The return type can be either `Response` or `NextResponse.next()`.
 
 ```typescript
 const schema = z.object({
-  hello: z.string({
-    invalid_type_error: 'Invalid hello',
-  }),
+  hello: z.string().regex(/[0-9]+/, { error: 'Invalid hello' }),
 });
 
 type SchemaType = z.infer<typeof Schema>;
@@ -60,20 +70,16 @@ validateGeneric<SchemaType>({ data: { hello: 'World' }, schema });
 
 This couldn't be simpler, but the only thing you have to remember is how to prevent `validateGeneric` from executing immediately.
 
-For example, let's create a `validateCookies` validator:
+For example, let's create a `validateCustom` validator:
 
 ```typescript
-type ValidateCookies<T> = ValidateWithSchema<T>;
+type ValidateCustom = ValidateWithSchema;
 
-export const validateCookies = <T>({
-  schema,
-  errorHandler,
-}: ValidateCookies<T>) => {
+export const validateCustom = <T>({ schema }: ValidateCustom) => {
   return async ({ request }: MiddlewareFunctionProps) =>
-    validateGeneric({
-      data: request.cookies as T,
+    validateGeneric<T>({
+      data: request.body as T,
       schema,
-      errorHandler,
     });
 };
 ```
@@ -82,13 +88,11 @@ In the above, we return an asynchronous function because when we use it like bel
 
 ```typescript
 const middlewares = {
-  '/api/hello/:world': [validateCookies<SchemaType>({ schema })],
+  '/api/hello/world': [validateCustom<SchemaType>({ schema })],
 };
 ```
 
-it means `validateGeneric` is not immediately executed when the api starts; it will only ever run when we make a request to `/api/hello/:world`.
-
-_Note: This example validator doesn't work. See `validateCookies` below._
+it means `validateGeneric` is not immediately executed when the api starts; it will only ever run when we make a request to `/api/hello/world`.
 
 ## validateBody
 
@@ -100,9 +104,7 @@ The return type can be either `Response` or `NextResponse.next()`.
 
 ```typescript
 const schema = z.object({
-  hello: z.string({
-    invalid_type_error: 'Invalid hello',
-  }),
+  hello: z.string().regex(/[0-9]+/, { error: 'Invalid hello' }),
 });
 
 type SchemaType = z.infer<typeof Schema>;
@@ -120,9 +122,7 @@ The return type can be either `Response` or `NextResponse.next()`.
 
 ```typescript
 const schema = z.object({
-  hello: z.string({
-    invalid_type_error: 'Invalid hello',
-  }),
+  hello: z.string().regex(/[0-9]+/, { error: 'Invalid hello' }),
 });
 
 type SchemaType = z.infer<typeof Schema>;
@@ -155,9 +155,7 @@ The return type can be either `Response` or `NextResponse.next()`.
 
 ```typescript
 const schema = z.object({
-  hello: z.string({
-    invalid_type_error: 'Invalid hello',
-  }),
+  hello: z.string().regex(/[0-9]+/, { error: 'Invalid hello' }),
 });
 
 type SchemaType = z.infer<typeof Schema>;
@@ -175,7 +173,7 @@ Feel free to keep using it, as it likely won't ever be removed.
 
 ## validatePath
 
-Validates the `request.params()` function inside a `NextRequest` request using `zod.safeParse`.
+Validates the `params` object provided by `NemoEvent` using `zod.safeParse`.
 
 The return type can be either `Response` or `NextResponse.next()`.
 
@@ -183,9 +181,7 @@ The return type can be either `Response` or `NextResponse.next()`.
 
 ```typescript
 const schema = z.object({
-  hello: z.string({
-    invalid_type_error: 'Invalid hello',
-  }),
+  hello: z.string().regex(/[0-9]+/, { error: 'Invalid hello' }),
 });
 
 type SchemaType = z.infer<typeof Schema>;
@@ -203,9 +199,7 @@ The return type can be either `Response` or `NextResponse.next()`.
 
 ```typescript
 const schema = z.object({
-  hello: z.string({
-    invalid_type_error: 'Invalid hello',
-  }),
+  hello: z.string().regex(/[0-9]+/, { error: 'Invalid hello' }),
 });
 
 type SchemaType = z.infer<typeof Schema>;
