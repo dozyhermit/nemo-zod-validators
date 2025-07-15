@@ -1,5 +1,5 @@
 import { validateGeneric } from '../validateGeneric';
-import { errorHandler } from './mocks/errorHandler';
+import { errorHandlerCustom } from './mocks/errorHandler';
 import {
   type SchemaType,
   SchemaWithZodEffectsType,
@@ -42,7 +42,7 @@ describe('validateGeneric', () => {
       const result = validateGeneric<SchemaType>({
         data: { Number: 123, String: 'Hello', AdvancedString: '123456' },
         schema,
-        errorHandler,
+        errorHandlerCustom,
       });
 
       expect(result.status).toBe(200);
@@ -52,19 +52,19 @@ describe('validateGeneric', () => {
       const result = validateGeneric<SchemaType>({
         data: { Number: 123, String: 'Hello', AdvancedString: 'World' },
         schema,
-        errorHandler,
+        errorHandlerCustom,
       });
 
       expect(await result.json()).toMatchSnapshot();
     });
   });
 
-  describe('with errorHandlerBuiltIn as formErrors', () => {
+  describe('with errorHandlerType as formErrors', () => {
     test('passes validation with correct data', () => {
       const result = validateGeneric<SchemaType>({
         data: { Number: 123, String: 'Hello', AdvancedString: '123456' },
         schema,
-        errorHandlerBuiltIn: 'formErrors',
+        errorHandlerType: 'formErrors',
       });
 
       expect(result.status).toBe(200);
@@ -74,18 +74,19 @@ describe('validateGeneric', () => {
       const result = validateGeneric<SchemaType>({
         data: { Number: 123, String: 'Hello', AdvancedString: 'World' },
         schema,
-        errorHandlerBuiltIn: 'formErrors',
+        errorHandlerType: 'formErrors',
       });
 
       expect(await result.json()).toMatchSnapshot();
     });
 
+    // TECHNICAL DEBT: this is technically a nothing test because errorHandlerType gets ignored
     test('triggers validation error with incorrect data and custom error handler', async () => {
       const result = validateGeneric<SchemaType>({
         data: { Number: 123, String: 'Hello', AdvancedString: 'World' },
         schema,
-        errorHandler,
-        errorHandlerBuiltIn: 'formErrors',
+        errorHandlerCustom,
+        errorHandlerType: 'formErrors',
       });
 
       expect(await result.json()).toMatchSnapshot();

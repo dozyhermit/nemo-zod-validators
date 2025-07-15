@@ -1,5 +1,5 @@
 import { validateCookies } from '../validateCookies';
-import { errorHandler } from './mocks/errorHandler';
+import { errorHandlerCustom } from './mocks/errorHandler';
 import {
   type CookieSchemaType as SchemaType,
   cookieSchema as schema,
@@ -10,14 +10,15 @@ describe('validateCookies', () => {
   test('passes validation with correct data', async () => {
     const action = validateCookies<SchemaType>({ schema });
 
-    const result = await action({
-      request: {
-        // @ts-expect-error type inconsistencies due to mocking body
+    const result = await action(
+      {
+        // @ts-expect-error type inconsistencies due to mocking function props
         cookies: {
           toString: () => 'Number=123; String=Hello; AdvancedString=123456',
         },
       },
-    });
+      {}
+    );
 
     expect(result.status).toBe(200);
   });
@@ -25,14 +26,15 @@ describe('validateCookies', () => {
   test('triggers validation error with incorrect data', async () => {
     const action = validateCookies<SchemaType>({ schema });
 
-    const result = await action({
-      request: {
-        // @ts-expect-error type inconsistencies due to mocking body
+    const result = await action(
+      {
+        // @ts-expect-error type inconsistencies due to mocking function props
         cookies: {
           toString: () => 'Number=123; String=Hello; AdvancedString=World',
         },
       },
-    });
+      {}
+    );
 
     expect(await result.json()).toMatchSnapshot();
   });
@@ -43,45 +45,54 @@ describe('validateCookies', () => {
       schema: schemaWithIntentionallyBrokenSafeParse,
     });
 
-    const result = await action({
-      request: {
-        // @ts-expect-error type inconsistencies due to mocking body
+    const result = await action(
+      {
+        // @ts-expect-error type inconsistencies due to mocking function props
         cookies: {
           toString: () => 'Number=123; String=Hello; AdvancedString=World',
         },
       },
-    });
+      {}
+    );
 
     expect(await result.json()).toMatchSnapshot();
   });
 
   describe('with custom error handler', () => {
     test('passes validation with correct data', async () => {
-      const action = validateCookies<SchemaType>({ schema, errorHandler });
+      const action = validateCookies<SchemaType>({
+        schema,
+        errorHandlerCustom,
+      });
 
-      const result = await action({
-        request: {
-          // @ts-expect-error type inconsistencies due to mocking body
+      const result = await action(
+        {
+          // @ts-expect-error type inconsistencies due to mocking function props
           cookies: {
             toString: () => 'Number=123; String=Hello; AdvancedString=123456',
           },
         },
-      });
+        {}
+      );
 
       expect(result.status).toBe(200);
     });
 
     test('triggers validation error with incorrect data', async () => {
-      const action = validateCookies<SchemaType>({ schema, errorHandler });
+      const action = validateCookies<SchemaType>({
+        schema,
+        errorHandlerCustom,
+      });
 
-      const result = await action({
-        request: {
-          // @ts-expect-error type inconsistencies due to mocking body
+      const result = await action(
+        {
+          // @ts-expect-error type inconsistencies due to mocking function props
           cookies: {
             toString: () => 'Number=123; String=Hello; AdvancedString=World',
           },
         },
-      });
+        {}
+      );
 
       expect(await result.json()).toMatchSnapshot();
     });
