@@ -1,5 +1,5 @@
 import { validateHeaders } from '../validateHeaders';
-import { errorHandler } from './mocks/errorHandler';
+import { errorHandlerCustom } from './mocks/errorHandler';
 import {
   type SchemaType,
   schema,
@@ -10,16 +10,17 @@ describe('validateHeaders', () => {
   test('passes validation with correct data', async () => {
     const action = validateHeaders<SchemaType>({ schema });
 
-    const result = await action({
-      request: {
-        // @ts-expect-error type inconsistencies due to mocking headers
+    const result = await action(
+      {
+        // @ts-expect-error type inconsistencies due to mocking function props
         headers: Object.entries({
           Number: 123,
           String: 'Hello',
           AdvancedString: '123456',
         }),
       },
-    });
+      {}
+    );
 
     expect(result.status).toBe(200);
   });
@@ -27,16 +28,17 @@ describe('validateHeaders', () => {
   test('triggers validation error with incorrect data', async () => {
     const action = validateHeaders<SchemaType>({ schema });
 
-    const result = await action({
-      request: {
-        // @ts-expect-error type inconsistencies due to mocking headers
+    const result = await action(
+      {
+        // @ts-expect-error type inconsistencies due to mocking function props
         headers: Object.entries({
           Number: 123,
           String: 'Hello',
           AdvancedString: 'World',
         }),
       },
-    });
+      {}
+    );
 
     expect(await result.json()).toMatchSnapshot();
   });
@@ -47,51 +49,60 @@ describe('validateHeaders', () => {
       schema: schemaWithIntentionallyBrokenSafeParse,
     });
 
-    const result = await action({
-      request: {
-        // @ts-expect-error type inconsistencies due to mocking body
-        body: Object.entries({
+    const result = await action(
+      {
+        // @ts-expect-error type inconsistencies due to mocking function props
+        headers: Object.entries({
           Number: 123,
           String: 'Hello',
           AdvancedString: 'World',
         }),
       },
-    });
+      {}
+    );
 
     expect(await result.json()).toMatchSnapshot();
   });
 
   describe('with custom error handler', () => {
     test('passes validation with correct data', async () => {
-      const action = validateHeaders<SchemaType>({ schema, errorHandler });
+      const action = validateHeaders<SchemaType>({
+        schema,
+        errorHandlerCustom,
+      });
 
-      const result = await action({
-        request: {
-          // @ts-expect-error type inconsistencies due to mocking headers
+      const result = await action(
+        {
+          // @ts-expect-error type inconsistencies due to mocking function props
           headers: Object.entries({
             Number: 123,
             String: 'Hello',
             AdvancedString: '123456',
           }),
         },
-      });
+        {}
+      );
 
       expect(result.status).toBe(200);
     });
 
     test('triggers validation error with incorrect data', async () => {
-      const action = validateHeaders<SchemaType>({ schema, errorHandler });
+      const action = validateHeaders<SchemaType>({
+        schema,
+        errorHandlerCustom,
+      });
 
-      const result = await action({
-        request: {
-          // @ts-expect-error type inconsistencies due to mocking headers
+      const result = await action(
+        {
+          // @ts-expect-error type inconsistencies due to mocking function props
           headers: Object.entries({
             Number: 123,
             String: 'Hello',
             AdvancedString: 'World',
           }),
         },
-      });
+        {}
+      );
 
       expect(await result.json()).toMatchSnapshot();
     });

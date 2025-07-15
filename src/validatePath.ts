@@ -1,16 +1,24 @@
-import { MiddlewareFunctionProps } from '@rescale/nemo';
+import { NemoEvent } from '@rescale/nemo';
+import { NextRequest } from 'next/server';
 import type { ValidateWithSchema } from './types';
 import { validateGeneric } from './validateGeneric';
 
-type ValidatePath<T> = ValidateWithSchema<T>;
+type ValidatePath = ValidateWithSchema;
 
 /**
- * Validates the `request.params()` function inside a `NextRequest` request using `zod.safeParse`.
+ * Validates the `params` object provided by `NemoEvent` using `zod.safeParse`.
  *
  * @param {T} schema The schema doing the validating
- * @param {Function} errorHandler A custom error function
+ * @param {Function} errorHandlerCustom A custom error function
  */
-export const validatePath = <T>({ schema, errorHandler }: ValidatePath<T>) => {
-  return async ({ params }: MiddlewareFunctionProps) =>
-    validateGeneric({ data: params() as T, schema, errorHandler });
+export const validatePath = <T>({
+  schema,
+  errorHandlerCustom,
+}: ValidatePath) => {
+  return async (_request: NextRequest, event: NemoEvent) =>
+    validateGeneric<T>({
+      data: event.params as T,
+      schema,
+      errorHandlerCustom,
+    });
 };

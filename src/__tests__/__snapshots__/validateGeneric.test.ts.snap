@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`validateGeneric triggers validation error with incorrect data 1`] = `
 {
@@ -22,13 +22,13 @@ exports[`validateGeneric with custom error handler triggers validation error wit
 }
 `;
 
-exports[`validateGeneric with errorHandlerBuiltIn as formErrors triggers validation error with incorrect data 1`] = `
+exports[`validateGeneric with errorHandlerType as formErrors triggers validation error with incorrect data 1`] = `
 {
   "message": "Validation has failed",
 }
 `;
 
-exports[`validateGeneric with errorHandlerBuiltIn as formErrors triggers validation error with incorrect data and custom error handler 1`] = `
+exports[`validateGeneric with errorHandlerType as formErrors triggers validation error with incorrect data and custom error handler 1`] = `
 {
   "message": "Invalid validation!",
 }

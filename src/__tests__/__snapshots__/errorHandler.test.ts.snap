@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`errorHandlerWithSchema uses DEFAULT_ERROR_MESSAGE if fieldErrors is in flatten but empty object 1`] = `
 {
@@ -46,7 +46,7 @@ exports[`errorHandlerWithSchemaFormErrors uses DEFAULT_ERROR_MESSAGE if flatten 
 }
 `;
 
-exports[`errorHandlerWithSchemaFormErrors uses DEFAULT_ERROR_MESSAGE if formErrors is in flatten but empty array 1`] = `
+exports[`errorHandlerWithSchemaFormErrors uses DEFAULT_ERROR_MESSAGE if formErrors is in flatten but empty object 1`] = `
 {
   "message": "Validation has failed",
 }

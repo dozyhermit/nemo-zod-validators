@@ -8,12 +8,13 @@ describe('validateEquals', () => {
       transform: (request) => request.headers.get('HELLO_WORLD'),
     });
 
-    const result = await action({
-      request: {
-        // @ts-expect-error type inconsistencies due to mocking body
+    const result = await action(
+      {
+        // @ts-expect-error type inconsistencies due to mocking function props
         headers: { get: () => 'Hello World' },
       },
-    });
+      {}
+    );
 
     expect(result.status).toBe(200);
   });
@@ -24,12 +25,13 @@ describe('validateEquals', () => {
       transform: (request) => request.headers.get('HELLO_WORLD'),
     });
 
-    const result = await action({
-      request: {
-        // @ts-expect-error type inconsistencies due to mocking body
+    const result = await action(
+      {
+        // @ts-expect-error type inconsistencies due to mocking function props
         headers: { get: () => 'Invalid' },
       },
-    });
+      {}
+    );
 
     expect(result.status).toBe(400);
   });
@@ -39,15 +41,16 @@ describe('validateEquals', () => {
       const action = validateEquals<String | null>({
         value: 'Hello World',
         transform: (request) => request.headers.get('HELLO_WORLD'),
-        errorHandler: errorHandlerEquals,
+        errorHandlerCustom: errorHandlerEquals,
       });
 
-      const result = await action({
-        request: {
-          // @ts-expect-error type inconsistencies due to mocking body
+      const result = await action(
+        {
+          // @ts-expect-error type inconsistencies due to mocking function props
           headers: { get: () => 'Hello World' },
         },
-      });
+        {}
+      );
 
       expect(result.status).toBe(200);
     });
@@ -56,15 +59,16 @@ describe('validateEquals', () => {
       const action = validateEquals<String | null>({
         value: 'Hello World',
         transform: (request) => request.headers.get('HELLO_WORLD'),
-        errorHandler: errorHandlerEquals,
+        errorHandlerCustom: errorHandlerEquals,
       });
 
-      const result = await action({
-        request: {
-          // @ts-expect-error type inconsistencies due to mocking body
+      const result = await action(
+        {
+          // @ts-expect-error type inconsistencies due to mocking function props
           headers: { get: () => 'Invalid' },
         },
-      });
+        {}
+      );
 
       expect(await result.json()).toMatchSnapshot();
     });

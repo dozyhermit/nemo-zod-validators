@@ -1,23 +1,24 @@
-import { MiddlewareFunctionProps } from '@rescale/nemo';
+import { NemoEvent } from '@rescale/nemo';
+import { NextRequest } from 'next/server';
 import type { ValidateWithSchema } from './types';
 import { validateGeneric } from './validateGeneric';
 
-type ValidateHeaders<T> = ValidateWithSchema<T>;
+type ValidateHeaders = ValidateWithSchema;
 
 /**
  * Validates the `request.headers` tuple inside a `NextRequest` request using `zod.safeParse`.
  *
  * @param {T} schema The schema doing the validating
- * @param {Function} errorHandler A custom error function
+ * @param {Function} errorHandlerCustom A custom error function
  */
 export const validateHeaders = <T>({
   schema,
-  errorHandler,
-}: ValidateHeaders<T>) => {
-  return async ({ request }: MiddlewareFunctionProps) =>
-    validateGeneric({
+  errorHandlerCustom,
+}: ValidateHeaders) => {
+  return async (request: NextRequest, _event: NemoEvent) =>
+    validateGeneric<T>({
       data: Object.fromEntries(request?.headers || []) as T,
       schema,
-      errorHandler,
+      errorHandlerCustom,
     });
 };
