@@ -1,9 +1,7 @@
-import type { SafeParseReturnType } from 'zod';
+import type { ZodSafeParseResult } from 'zod';
 
-export const errorHandler = <T>({}: SafeParseReturnType<
-  Record<string, any>,
-  T
->) => Response.json({ message: 'Invalid validation!' });
+export const errorHandlerCustom = <T>({}: ZodSafeParseResult<T>) =>
+  Response.json({ message: 'Invalid validation!' });
 
 export const errorHandlerEquals = () =>
   Response.json({ message: 'Invalid equals!' });
