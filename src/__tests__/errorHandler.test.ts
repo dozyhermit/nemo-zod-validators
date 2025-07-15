@@ -128,7 +128,7 @@ describe('errorHandlerWithSchemaFormErrors', () => {
     expect(await result.json()).toMatchSnapshot();
   });
 
-  test('uses DEFAULT_ERROR_MESSAGE if formErrors is in flatten but empty array', async () => {
+  test('uses DEFAULT_ERROR_MESSAGE if formErrors is in flatten but empty object', async () => {
     const result = errorHandlerWithSchemaFormErrors({
       error: {
         // @ts-expect-error intentionally fudged, type errors expected

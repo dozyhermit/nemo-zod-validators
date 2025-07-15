@@ -1,5 +1,5 @@
 import { validatePath } from '../validatePath';
-import { errorHandler } from './mocks/errorHandler';
+import { errorHandlerCustom } from './mocks/errorHandler';
 import {
   type SchemaType,
   schema,
@@ -10,14 +10,17 @@ describe('validatePath', () => {
   test('passes validation with correct data', async () => {
     const action = validatePath<SchemaType>({ schema });
 
-    const result = await action({
-      params: () => ({
-        // @ts-expect-error type inconsistencies due to mocking params()
-        Number: 123,
-        String: 'Hello',
-        AdvancedString: '123456',
-      }),
-    });
+    const result = await action(
+      // @ts-expect-error type inconsistencies due to mocking function props
+      {},
+      {
+        params: {
+          Number: 123,
+          String: 'Hello',
+          AdvancedString: '123456',
+        },
+      }
+    );
 
     expect(result.status).toBe(200);
   });
@@ -25,14 +28,17 @@ describe('validatePath', () => {
   test('triggers validation error with incorrect data', async () => {
     const action = validatePath<SchemaType>({ schema });
 
-    const result = await action({
-      params: () => ({
-        // @ts-expect-error type inconsistencies due to mocking params()
-        Number: 123,
-        String: 'Hello',
-        AdvancedString: 'World',
-      }),
-    });
+    const result = await action(
+      // @ts-expect-error type inconsistencies due to mocking function props
+      {},
+      {
+        params: {
+          Number: 123,
+          String: 'Hello',
+          AdvancedString: 'World',
+        },
+      }
+    );
 
     expect(await result.json()).toMatchSnapshot();
   });
@@ -43,45 +49,54 @@ describe('validatePath', () => {
       schema: schemaWithIntentionallyBrokenSafeParse,
     });
 
-    const result = await action({
-      params: () => ({
-        // @ts-expect-error type inconsistencies due to mocking params()
-        Number: 123,
-        String: 'Hello',
-        AdvancedString: 'World',
-      }),
-    });
+    const result = await action(
+      // @ts-expect-error type inconsistencies due to mocking function props
+      {},
+      {
+        params: {
+          Number: 123,
+          String: 'Hello',
+          AdvancedString: 'World',
+        },
+      }
+    );
 
     expect(await result.json()).toMatchSnapshot();
   });
 
   describe('with custom error handler', () => {
     test('passes validation with correct data', async () => {
-      const action = validatePath<SchemaType>({ schema, errorHandler });
+      const action = validatePath<SchemaType>({ schema, errorHandlerCustom });
 
-      const result = await action({
-        params: () => ({
-          // @ts-expect-error type inconsistencies due to mocking params()
-          Number: 123,
-          String: 'Hello',
-          AdvancedString: '123456',
-        }),
-      });
+      const result = await action(
+        // @ts-expect-error type inconsistencies due to mocking function props
+        {},
+        {
+          params: {
+            Number: 123,
+            String: 'Hello',
+            AdvancedString: '123456',
+          },
+        }
+      );
 
       expect(result.status).toBe(200);
     });
 
     test('triggers validation error with incorrect data', async () => {
-      const action = validatePath<SchemaType>({ schema, errorHandler });
+      const action = validatePath<SchemaType>({ schema, errorHandlerCustom });
 
-      const result = await action({
-        params: () => ({
-          // @ts-expect-error type inconsistencies due to mocking params()
-          Number: 123,
-          String: 'Hello',
-          AdvancedString: 'World',
-        }),
-      });
+      const result = await action(
+        // @ts-expect-error type inconsistencies due to mocking function props
+        {},
+        {
+          params: {
+            Number: 123,
+            String: 'Hello',
+            AdvancedString: 'World',
+          },
+        }
+      );
 
       expect(await result.json()).toMatchSnapshot();
     });

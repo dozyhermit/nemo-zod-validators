@@ -1,5 +1,5 @@
 import { validateBody } from '../validateBody';
-import { errorHandler } from './mocks/errorHandler';
+import { errorHandlerCustom } from './mocks/errorHandler';
 import {
   type SchemaType,
   schema,
@@ -10,16 +10,17 @@ describe('validateBody', () => {
   test('passes validation with correct data', async () => {
     const action = validateBody<SchemaType>({ schema });
 
-    const result = await action({
-      request: {
-        // @ts-expect-error type inconsistencies due to mocking body
+    const result = await action(
+      {
+        // @ts-expect-error type inconsistencies due to mocking function props
         json: () => ({
           Number: 123,
           String: 'Hello',
           AdvancedString: '123456',
         }),
       },
-    });
+      {}
+    );
 
     expect(result.status).toBe(200);
   });
@@ -27,12 +28,13 @@ describe('validateBody', () => {
   test('triggers validation error with incorrect data', async () => {
     const action = validateBody<SchemaType>({ schema });
 
-    const result = await action({
-      request: {
-        // @ts-expect-error type inconsistencies due to mocking body
+    const result = await action(
+      {
+        // @ts-expect-error type inconsistencies due to mocking function props
         json: () => ({ Number: 123, String: 'Hello', AdvancedString: 'World' }),
       },
-    });
+      {}
+    );
 
     expect(await result.json()).toMatchSnapshot();
   });
@@ -43,47 +45,50 @@ describe('validateBody', () => {
       schema: schemaWithIntentionallyBrokenSafeParse,
     });
 
-    const result = await action({
-      request: {
-        // @ts-expect-error type inconsistencies due to mocking body
+    const result = await action(
+      {
+        // @ts-expect-error type inconsistencies due to mocking function props
         json: () => ({ Number: 123, String: 'Hello', AdvancedString: 'World' }),
       },
-    });
+      {}
+    );
 
     expect(await result.json()).toMatchSnapshot();
   });
 
   describe('with custom error handler', () => {
     test('passes validation with correct data', async () => {
-      const action = validateBody<SchemaType>({ schema, errorHandler });
+      const action = validateBody<SchemaType>({ schema, errorHandlerCustom });
 
-      const result = await action({
-        request: {
-          // @ts-expect-error type inconsistencies due to mocking body
+      const result = await action(
+        {
+          // @ts-expect-error type inconsistencies due to mocking function props
           json: () => ({
             Number: 123,
             String: 'Hello',
             AdvancedString: '123456',
           }),
         },
-      });
+        {}
+      );
 
       expect(result.status).toBe(200);
     });
 
     test('triggers validation error with incorrect data', async () => {
-      const action = validateBody<SchemaType>({ schema, errorHandler });
+      const action = validateBody<SchemaType>({ schema, errorHandlerCustom });
 
-      const result = await action({
-        request: {
-          // @ts-expect-error type inconsistencies due to mocking body
+      const result = await action(
+        {
+          // @ts-expect-error type inconsistencies due to mocking function props
           json: () => ({
             Number: 123,
             String: 'Hello',
             AdvancedString: 'World',
           }),
         },
-      });
+        {}
+      );
 
       expect(await result.json()).toMatchSnapshot();
     });
