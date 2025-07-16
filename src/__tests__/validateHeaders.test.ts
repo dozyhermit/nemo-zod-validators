@@ -45,7 +45,7 @@ describe('validateHeaders', () => {
 
   test('triggers validation error with incorrect data and uses DEFAULT_ERROR_MESSAGE', async () => {
     const action = validateHeaders<SchemaType>({
-      // @ts-expect-error
+      // @ts-expect-error intentionally broken schema
       schema: schemaWithIntentionallyBrokenSafeParse,
     });
 
