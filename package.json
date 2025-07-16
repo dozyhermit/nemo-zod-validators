@@ -1,6 +1,6 @@
 {
   "name": "@dozyhermit/nemo-zod-validators",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A collection of middleware validators made with zod and @rescale/nemo for Next.js",
   "license": "MIT",
   "author": "dozyhermit (https://github.com/dozyhermit)",
@@ -35,7 +35,8 @@
     "lint": "eslint",
     "types:check": "tsc --noEmit",
     "prettier:check": "prettier . --check",
-    "format:write": "prettier . --write",
+    "prettier:write": "prettier . --write",
+    "format:write": "npm run prettier:write",
     "format:check": "npm run types:check && npm run lint && npm run prettier:check",
     "test": "jest --coverage"
   },
