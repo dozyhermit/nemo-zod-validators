@@ -80,7 +80,7 @@ describe('validateGeneric', () => {
       expect(await result.json()).toMatchSnapshot();
     });
 
-    // TECHNICAL DEBT: this is technically a nothing test because errorHandlerType gets ignored
+    // technical debt: this is technically a nothing test because errorHandlerType gets ignored
     test('triggers validation error with incorrect data and custom error handler', async () => {
       const result = validateGeneric<SchemaType>({
         data: { Number: 123, String: 'Hello', AdvancedString: 'World' },
@@ -93,8 +93,7 @@ describe('validateGeneric', () => {
     });
   });
 
-  // This is just testing that the types definitions work okay with a ZodEffects style schema.
-  // We don't really need to test that this works/doesn't work.
+  // this is just testing that the types definitions work okay with a ZodEffects style schema.
   describe('with schema that has one of two required fields', () => {
     test('passes validation with at least one the required fields', async () => {
       const result = validateGeneric<SchemaWithZodEffectsType>({

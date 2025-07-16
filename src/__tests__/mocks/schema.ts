@@ -14,46 +14,24 @@ export const schema = z.object({
     .regex(/^[0-9]+$/, 'Invalid AdvancedString regex'),
 });
 
-export const schemaWithIntentionallyBrokenSafeParse = {
-  safeParse: (_data: any) => ({ error: true }),
-};
-
 export type SchemaType = z.infer<typeof schema>;
 
-export const cookieSchema = z.object({
+export const cookieSchema = schema.extend({
   Number: z
     .string({
       error: 'Invalid Number type',
     })
     .regex(/^[0-9]+$/, 'Invalid Number regex'),
-  String: z.string({
-    error: 'Invalid String type',
-  }),
-  AdvancedString: z
-    .string({
-      error: 'Invalid AdvancedString type',
-    })
-    .regex(/^[0-9]+$/, 'Invalid AdvancedString regex'),
 });
 
 export type CookieSchemaType = z.infer<typeof cookieSchema>;
 
-export const schemaWithZodEffects = z
-  .object({
-    Number: z.number({
-      error: 'Invalid Number type',
-    }),
-    String: z
-      .string({
-        error: 'Invalid String type',
-      })
-      .optional(),
-    AdvancedString: z
-      .string({
-        error: 'Invalid AdvancedString type',
-      })
-      .regex(/^[0-9]+$/, 'Invalid AdvancedString regex'),
-  })
+export const schemaWithIntentionallyBrokenSafeParse = {
+  safeParse: (_data: any) => ({ error: true }),
+};
+
+// technical debt: upgrade this to v4 example
+export const schemaWithZodEffects = schema
   .partial()
   .superRefine((data, ctx) => {
     if (!data.Number && !data.AdvancedString) {

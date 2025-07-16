@@ -3,7 +3,7 @@ import type { ZodError } from './types';
 
 export const DEFAULT_ERROR_MESSAGE = 'Validation has failed';
 
-// TECHNICAL DEBT: remove .flatten(), use z.flattenError instead
+// technical debt: remove .flatten(), use z.flattenError instead
 const getErrors = (
   error: ZodError['error'],
   key: keyof z.core.$ZodFlattenedError<string, unknown>

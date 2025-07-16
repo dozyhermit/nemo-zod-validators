@@ -75,7 +75,7 @@ For example, let's create a `validateCustom` validator:
 type ValidateCustom = ValidateWithSchema;
 
 export const validateCustom = <T>({ schema }: ValidateCustom) => {
-  return async ({ request }: MiddlewareFunctionProps) =>
+  return async (request: NextRequest, _event: NemoEvent) =>
     validateGeneric<T>({
       data: request.body as T,
       schema,
@@ -83,7 +83,7 @@ export const validateCustom = <T>({ schema }: ValidateCustom) => {
 };
 ```
 
-In the above, we return an asynchronous function because when we use it like below:
+In the above, we return a function because when we use it like below:
 
 ```typescript
 const middlewares = {
