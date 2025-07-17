@@ -1,11 +1,8 @@
-import {
-  errorHandlerWithSchema,
-  errorHandlerWithSchemaFormErrors,
-} from '../errorHandler';
+import { errorHandlerSchema } from '../errorHandler';
 
-describe('errorHandlerWithSchema', () => {
+describe('errorHandlerSchema', () => {
   test('uses fieldErrors if in error', async () => {
-    const result = errorHandlerWithSchema({
+    const result = errorHandlerSchema({
       // @ts-expect-error intentionally fudged, type errors expected
       error: {
         flatten: () => ({
@@ -19,7 +16,7 @@ describe('errorHandlerWithSchema', () => {
   });
 
   test('uses DEFAULT_ERROR_MESSAGE if flatten not in error', async () => {
-    const result = errorHandlerWithSchema({
+    const result = errorHandlerSchema({
       // @ts-expect-error intentionally fudged, type errors expected
       error: {},
     });
@@ -28,7 +25,7 @@ describe('errorHandlerWithSchema', () => {
   });
 
   test('uses DEFAULT_ERROR_MESSAGE if fieldErrors not in flatten', async () => {
-    const result = errorHandlerWithSchema({
+    const result = errorHandlerSchema({
       error: {
         // @ts-expect-error intentionally fudged, type errors expected
         flatten: () => ({}),
@@ -39,7 +36,7 @@ describe('errorHandlerWithSchema', () => {
   });
 
   test('uses DEFAULT_ERROR_MESSAGE if fieldErrors is in flatten but undefined', async () => {
-    const result = errorHandlerWithSchema({
+    const result = errorHandlerSchema({
       error: {
         // @ts-expect-error intentionally fudged, type errors expected
         flatten: () => ({ fieldErrors: undefined }),
@@ -50,7 +47,7 @@ describe('errorHandlerWithSchema', () => {
   });
 
   test('uses DEFAULT_ERROR_MESSAGE if fieldErrors is in flatten but empty string', async () => {
-    const result = errorHandlerWithSchema({
+    const result = errorHandlerSchema({
       error: {
         // @ts-expect-error intentionally fudged, type errors expected
         flatten: () => ({ fieldErrors: '' }),
@@ -61,7 +58,7 @@ describe('errorHandlerWithSchema', () => {
   });
 
   test('uses DEFAULT_ERROR_MESSAGE if fieldErrors is in flatten but empty object', async () => {
-    const result = errorHandlerWithSchema({
+    const result = errorHandlerSchema({
       error: {
         // @ts-expect-error intentionally fudged, type errors expected
         flatten: () => ({ fieldErrors: {} }),
@@ -72,69 +69,88 @@ describe('errorHandlerWithSchema', () => {
   });
 });
 
-describe('errorHandlerWithSchemaFormErrors', () => {
+describe('errorHandler with errorType as formErrors', () => {
   test('uses formErrors if in error', async () => {
-    const result = errorHandlerWithSchemaFormErrors({
-      error: {
+    const result = errorHandlerSchema(
+      {
         // @ts-expect-error intentionally fudged, type errors expected
-        flatten: () => ({
-          formErrors: ['Form error exists!'],
-        }),
+        error: {
+          flatten: () => ({
+            fieldErrors: {},
+            formErrors: ['Form error exists!'],
+          }),
+        },
       },
-    });
+      'formErrors'
+    );
 
     expect(await result.json()).toMatchSnapshot();
   });
 
   test('uses DEFAULT_ERROR_MESSAGE if flatten not in error', async () => {
-    const result = errorHandlerWithSchemaFormErrors({
-      // @ts-expect-error intentionally fudged, type errors expected
-      error: {},
-    });
+    const result = errorHandlerSchema(
+      {
+        // @ts-expect-error intentionally fudged, type errors expected
+        error: {},
+      },
+      'formErrors'
+    );
 
     expect(await result.json()).toMatchSnapshot();
   });
 
   test('uses DEFAULT_ERROR_MESSAGE if formErrors not in flatten', async () => {
-    const result = errorHandlerWithSchemaFormErrors({
-      error: {
-        // @ts-expect-error intentionally fudged, type errors expected
-        flatten: () => ({}),
+    const result = errorHandlerSchema(
+      {
+        error: {
+          // @ts-expect-error intentionally fudged, type errors expected
+          flatten: () => ({}),
+        },
       },
-    });
+      'formErrors'
+    );
 
     expect(await result.json()).toMatchSnapshot();
   });
 
   test('uses DEFAULT_ERROR_MESSAGE if formErrors is in flatten but undefined', async () => {
-    const result = errorHandlerWithSchemaFormErrors({
-      error: {
-        // @ts-expect-error intentionally fudged, type errors expected
-        flatten: () => ({ formErrors: undefined }),
+    const result = errorHandlerSchema(
+      {
+        error: {
+          // @ts-expect-error intentionally fudged, type errors expected
+          flatten: () => ({ formErrors: undefined }),
+        },
       },
-    });
+      'formErrors'
+    );
 
     expect(await result.json()).toMatchSnapshot();
   });
 
   test('uses DEFAULT_ERROR_MESSAGE if formErrors is in flatten but empty string', async () => {
-    const result = errorHandlerWithSchemaFormErrors({
-      error: {
-        // @ts-expect-error intentionally fudged, type errors expected
-        flatten: () => ({ formErrors: '' }),
+    const result = errorHandlerSchema(
+      {
+        error: {
+          // @ts-expect-error intentionally fudged, type errors expected
+          flatten: () => ({ formErrors: '' }),
+        },
       },
-    });
+      'formErrors'
+    );
 
     expect(await result.json()).toMatchSnapshot();
   });
 
-  test('uses DEFAULT_ERROR_MESSAGE if formErrors is in flatten but empty object', async () => {
-    const result = errorHandlerWithSchemaFormErrors({
-      error: {
-        // @ts-expect-error intentionally fudged, type errors expected
-        flatten: () => ({ formErrors: {} }),
+  test('uses DEFAULT_ERROR_MESSAGE if formErrors is in flatten but empty array', async () => {
+    const result = errorHandlerSchema(
+      {
+        error: {
+          // @ts-expect-error intentionally fudged, type errors expected
+          flatten: () => ({ formErrors: [] }),
+        },
       },
-    });
+      'formErrors'
+    );
 
     expect(await result.json()).toMatchSnapshot();
   });

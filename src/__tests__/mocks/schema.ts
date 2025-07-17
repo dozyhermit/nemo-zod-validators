@@ -26,27 +26,25 @@ export const cookieSchema = schema.extend({
 
 export type CookieSchemaType = z.infer<typeof cookieSchema>;
 
-export const schemaWithIntentionallyBrokenSafeParse = {
+export const brokenSafeParseSchema = {
   safeParse: (_data: any) => ({ error: true }),
 };
 
 // technical debt: upgrade this to v4 example
-export const schemaWithZodEffects = schema
-  .partial()
-  .superRefine((data, ctx) => {
-    if (!data.Number && !data.AdvancedString) {
-      ctx.addIssue({
-        path: ['Number'],
-        code: z.ZodIssueCode.custom,
-        message: 'Must have at least one of Number or AdvancedString',
-      });
+export const zodEffectsSchema = schema.partial().superRefine((data, ctx) => {
+  if (!data.Number && !data.AdvancedString) {
+    ctx.addIssue({
+      path: ['Number'],
+      code: z.ZodIssueCode.custom,
+      message: 'Must have at least one of Number or AdvancedString',
+    });
 
-      ctx.addIssue({
-        path: ['AdvancedString'],
-        code: z.ZodIssueCode.custom,
-        message: 'Must have at least one of AdvancedString or Number',
-      });
-    }
-  });
+    ctx.addIssue({
+      path: ['AdvancedString'],
+      code: z.ZodIssueCode.custom,
+      message: 'Must have at least one of AdvancedString or Number',
+    });
+  }
+});
 
-export type SchemaWithZodEffectsType = z.infer<typeof schemaWithZodEffects>;
+export type ZodEffectsSchemaType = z.infer<typeof zodEffectsSchema>;

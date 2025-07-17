@@ -2,10 +2,10 @@ import { validateGeneric } from '../validateGeneric';
 import { errorHandlerCustom } from './mocks/errorHandler';
 import {
   type SchemaType,
-  SchemaWithZodEffectsType,
+  ZodEffectsSchemaType,
+  brokenSafeParseSchema,
   schema,
-  schemaWithIntentionallyBrokenSafeParse,
-  schemaWithZodEffects,
+  zodEffectsSchema,
 } from './mocks/schema';
 
 describe('validateGeneric', () => {
@@ -31,7 +31,7 @@ describe('validateGeneric', () => {
     const result = validateGeneric<SchemaType>({
       data: { Number: 123, String: 'Hello', AdvancedString: 'World' },
       // @ts-expect-error intentionally broken schema
-      schema: schemaWithIntentionallyBrokenSafeParse,
+      schema: brokenSafeParseSchema,
     });
 
     expect(await result.json()).toMatchSnapshot();
@@ -59,12 +59,12 @@ describe('validateGeneric', () => {
     });
   });
 
-  describe('with errorHandlerType as formErrors', () => {
+  describe('with errorType as formErrors', () => {
     test('passes validation with correct data', () => {
       const result = validateGeneric<SchemaType>({
         data: { Number: 123, String: 'Hello', AdvancedString: '123456' },
         schema,
-        errorHandlerType: 'formErrors',
+        errorType: 'formErrors',
       });
 
       expect(result.status).toBe(200);
@@ -74,19 +74,19 @@ describe('validateGeneric', () => {
       const result = validateGeneric<SchemaType>({
         data: { Number: 123, String: 'Hello', AdvancedString: 'World' },
         schema,
-        errorHandlerType: 'formErrors',
+        errorType: 'formErrors',
       });
 
       expect(await result.json()).toMatchSnapshot();
     });
 
-    // technical debt: this is technically a nothing test because errorHandlerType gets ignored
+    // technical debt: this is technically a nothing test because errorType gets ignored
     test('triggers validation error with incorrect data and custom error handler', async () => {
       const result = validateGeneric<SchemaType>({
         data: { Number: 123, String: 'Hello', AdvancedString: 'World' },
         schema,
         errorHandlerCustom,
-        errorHandlerType: 'formErrors',
+        errorType: 'formErrors',
       });
 
       expect(await result.json()).toMatchSnapshot();
@@ -96,9 +96,9 @@ describe('validateGeneric', () => {
   // this is just testing that the types definitions work okay with a ZodEffects style schema.
   describe('with schema that has one of two required fields', () => {
     test('passes validation with at least one the required fields', async () => {
-      const result = validateGeneric<SchemaWithZodEffectsType>({
+      const result = validateGeneric<ZodEffectsSchemaType>({
         data: { String: 'Hello', Number: 12 },
-        schema: schemaWithZodEffects,
+        schema: zodEffectsSchema,
       });
 
       expect(result.status).toBe(200);
