@@ -1,10 +1,6 @@
 import { validateQuery } from '../validateQuery';
 import { errorHandlerCustom } from './mocks/errorHandler';
-import {
-  type SchemaType,
-  schema,
-  schemaWithIntentionallyBrokenSafeParse,
-} from './mocks/schema';
+import { type SchemaType, brokenSafeParseSchema, schema } from './mocks/schema';
 
 describe('validateQuery', () => {
   test('passes validation with correct data', async () => {
@@ -54,7 +50,7 @@ describe('validateQuery', () => {
   test('triggers validation error with incorrect data and uses DEFAULT_ERROR_MESSAGE', async () => {
     const action = validateQuery<SchemaType>({
       // @ts-expect-error intentionally broken schema
-      schema: schemaWithIntentionallyBrokenSafeParse,
+      schema: brokenSafeParseSchema,
     });
 
     const result = await action(
