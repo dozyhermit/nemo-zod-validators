@@ -1,45 +1,37 @@
 import { NextResponse } from 'next/server';
-import {
-  errorHandlerWithSchema,
-  errorHandlerWithSchemaFormErrors,
-} from './errorHandler';
-import { ValidateWithSchema, ZodError, type ValidateReturnType } from './types';
+import { errorHandlerSchema } from './errorHandler';
+import { ValidateSchema, type ValidateResponse } from './types';
 
-const errorHandlers: Record<string, ({ error }: ZodError) => Response> = {
-  formErrors: errorHandlerWithSchemaFormErrors,
-  default: errorHandlerWithSchema,
-};
-
-type ValidateGeneric<T> = { data: T } & ValidateWithSchema;
+type ValidateGeneric<T> = { data: T } & ValidateSchema;
 
 /**
  * Validates `data` with `zod.safeParse`.
  *
  * @param {T} data The data to be validated
  * @param {z.ZodObject} schema The schema doing the validating
- * @param {string} errorHandlerType There are two error handler types, `fieldErrors` and `formErrors`, with `fieldErrors` being the default
+ * @param {string} errorType There are two error handler types, `fieldErrors` and `formErrors`, with `fieldErrors` being the default
  * @param {Function} errorHandlerCustom A custom error handler; gives you the full error to handle however you wish
  *
  */
 export const validateGeneric = <T>({
   data,
   schema,
-  errorHandlerType = 'fieldErrors',
+  errorType = 'fieldErrors',
   errorHandlerCustom,
-}: ValidateGeneric<T>): ValidateReturnType => {
-  const validationResult = schema.safeParse(data as T);
+}: ValidateGeneric<T>): ValidateResponse => {
+  const result = schema.safeParse(data as T);
 
-  if (!validationResult.error) {
+  if (!result.error) {
     return NextResponse.next();
   }
 
   if (errorHandlerCustom) {
-    return errorHandlerCustom(validationResult);
+    return errorHandlerCustom(result);
   }
 
-  if (errorHandlers?.[errorHandlerType]) {
-    return errorHandlers[errorHandlerType](validationResult);
+  if (errorType) {
+    return errorHandlerSchema(result, errorType);
   }
 
-  return errorHandlers.default(validationResult);
+  return errorHandlerSchema(result);
 };

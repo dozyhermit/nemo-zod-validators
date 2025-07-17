@@ -1,10 +1,10 @@
 import { NemoEvent } from '@rescale/nemo';
 import { parse } from 'cookie';
 import { NextRequest } from 'next/server';
-import { ValidateWithSchema } from './types';
+import { ValidateSchema } from './types';
 import { validateGeneric } from './validateGeneric';
 
-type ValidateCookies = ValidateWithSchema;
+type ValidateCookies = ValidateSchema;
 
 /**
  * Validates the `request.cookies` object inside a `NextRequest` request using `zod.safeParse`.

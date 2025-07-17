@@ -2,25 +2,21 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
 export type Schema = z.ZodObject<z.core.$ZodLooseShape, z.core.$strip>;
-
-export type ZodError = z.ZodSafeParseResult<
+export type SchemaResult = z.ZodSafeParseResult<
   z.core.$InferObjectOutput<z.core.$ZodLooseShape, Record<string, unknown>>
 >;
 
-export type ValidateReturnType = NextResponse | Response;
+export type ErrorType = keyof z.core.$ZodFlattenedError<string, unknown>;
+export type ValidateResponse = NextResponse | Response;
 
-export type ValidateWithSchema = {
+export type ValidateSchema = {
   schema: Schema;
-  errorHandlerCustom?: (
-    validationResult: z.ZodSafeParseResult<
-      z.core.$InferObjectOutput<z.core.$ZodLooseShape, Record<string, unknown>>
-    >
-  ) => ValidateReturnType;
-  errorHandlerType?: 'fieldErrors' | 'formErrors';
+  errorType?: ErrorType;
+  errorHandlerCustom?: (result: SchemaResult) => ValidateResponse;
 };
 
-export type ValidateWithTransform<T> = {
+export type ValidateTransform<T> = {
   value: T;
   transform: (request: NextRequest) => T;
-  errorHandlerCustom?: () => ValidateReturnType;
+  errorHandlerCustom?: () => ValidateResponse;
 };

@@ -22,13 +22,13 @@ exports[`validateGeneric with custom error handler triggers validation error wit
 }
 `;
 
-exports[`validateGeneric with errorHandlerType as formErrors triggers validation error with incorrect data 1`] = `
+exports[`validateGeneric with errorType as formErrors triggers validation error with incorrect data 1`] = `
 {
   "message": "Validation has failed",
 }
 `;
 
-exports[`validateGeneric with errorHandlerType as formErrors triggers validation error with incorrect data and custom error handler 1`] = `
+exports[`validateGeneric with errorType as formErrors triggers validation error with incorrect data and custom error handler 1`] = `
 {
   "message": "Invalid validation!",
 }

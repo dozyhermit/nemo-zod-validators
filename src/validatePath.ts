@@ -1,9 +1,9 @@
 import { NemoEvent } from '@rescale/nemo';
 import { NextRequest } from 'next/server';
-import type { ValidateWithSchema } from './types';
+import type { ValidateSchema } from './types';
 import { validateGeneric } from './validateGeneric';
 
-type ValidatePath = ValidateWithSchema;
+type ValidatePath = ValidateSchema;
 
 /**
  * Validates the `params` object provided by `NemoEvent` using `zod.safeParse`.

@@ -72,7 +72,7 @@ This couldn't be simpler, but the only thing you have to remember is how to prev
 For example, let's create a `validateCustom` validator:
 
 ```typescript
-type ValidateCustom = ValidateWithSchema;
+type ValidateCustom = ValidateSchema;
 
 export const validateCustom = <T>({ schema }: ValidateCustom) => {
   return async (request: NextRequest, _event: NemoEvent) =>
