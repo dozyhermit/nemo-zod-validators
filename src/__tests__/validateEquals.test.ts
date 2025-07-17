@@ -33,7 +33,7 @@ describe('validateEquals', () => {
       {}
     );
 
-    expect(result.status).toBe(400);
+    expect(result.status).toBe(422);
   });
 
   describe('with custom error handler', () => {

@@ -1,9 +1,9 @@
 import { NemoEvent } from '@rescale/nemo';
 import { NextRequest } from 'next/server';
-import type { ValidateWithSchema } from './types';
+import type { ValidateSchema } from './types';
 import { validateGeneric } from './validateGeneric';
 
-type validateQuery = ValidateWithSchema;
+type validateQuery = ValidateSchema;
 
 /**
  * Validates `request.nextUrl.searchParams` (URLSearchParams) inside a `NextRequest` request using `zod.safeParse`.

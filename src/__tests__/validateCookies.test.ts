@@ -2,8 +2,8 @@ import { validateCookies } from '../validateCookies';
 import { errorHandlerCustom } from './mocks/errorHandler';
 import {
   type CookieSchemaType as SchemaType,
+  brokenSafeParseSchema,
   cookieSchema as schema,
-  schemaWithIntentionallyBrokenSafeParse,
 } from './mocks/schema';
 
 describe('validateCookies', () => {
@@ -42,7 +42,7 @@ describe('validateCookies', () => {
   test('triggers validation error with incorrect data and uses DEFAULT_ERROR_MESSAGE', async () => {
     const action = validateCookies<SchemaType>({
       // @ts-expect-error intentionally broken schema
-      schema: schemaWithIntentionallyBrokenSafeParse,
+      schema: brokenSafeParseSchema,
     });
 
     const result = await action(

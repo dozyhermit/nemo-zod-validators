@@ -1,44 +1,38 @@
-import { z } from 'zod';
-import type { ZodError } from './types';
+import type { ErrorType, SchemaResult } from './types';
 
 export const DEFAULT_ERROR_MESSAGE = 'Validation has failed';
 
 // technical debt: remove .flatten(), use z.flattenError instead
-const getErrors = (
-  error: ZodError['error'],
-  key: keyof z.core.$ZodFlattenedError<string, unknown>
+const getSchemaErrors = (
+  error: SchemaResult['error'],
+  errorType: ErrorType
 ) => {
   if (typeof error?.flatten !== 'function') {
-    return undefined;
+    return DEFAULT_ERROR_MESSAGE;
   }
 
-  if (Object.values(error?.flatten()?.[key] || {}).length <= 0) {
-    return undefined;
+  if (Object.values(error?.flatten()?.[errorType] || {}).length <= 0) {
+    return DEFAULT_ERROR_MESSAGE;
   }
 
-  return error.flatten()[key];
+  return error.flatten()[errorType];
 };
 
-export const errorHandlerWithSchema = ({ error }: ZodError) =>
+export const errorHandlerSchema = (
+  { error }: SchemaResult,
+  errorType?: ErrorType
+) =>
   Response.json(
     {
-      message: getErrors(error, 'fieldErrors') || DEFAULT_ERROR_MESSAGE,
+      message: getSchemaErrors(error, errorType ?? 'fieldErrors'),
     },
     { status: 422 }
   );
 
-export const errorHandlerWithSchemaFormErrors = ({ error }: ZodError) =>
-  Response.json(
-    {
-      message: getErrors(error, 'formErrors') || DEFAULT_ERROR_MESSAGE,
-    },
-    { status: 422 }
-  );
-
-export const errorHandlerWithTransform = () =>
+export const errorHandlerTransform = () =>
   Response.json(
     { message: 'Invalid request', success: false },
     {
-      status: 400,
+      status: 422,
     }
   );

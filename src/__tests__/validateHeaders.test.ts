@@ -1,10 +1,6 @@
 import { validateHeaders } from '../validateHeaders';
 import { errorHandlerCustom } from './mocks/errorHandler';
-import {
-  type SchemaType,
-  schema,
-  schemaWithIntentionallyBrokenSafeParse,
-} from './mocks/schema';
+import { type SchemaType, brokenSafeParseSchema, schema } from './mocks/schema';
 
 describe('validateHeaders', () => {
   test('passes validation with correct data', async () => {
@@ -46,7 +42,7 @@ describe('validateHeaders', () => {
   test('triggers validation error with incorrect data and uses DEFAULT_ERROR_MESSAGE', async () => {
     const action = validateHeaders<SchemaType>({
       // @ts-expect-error intentionally broken schema
-      schema: schemaWithIntentionallyBrokenSafeParse,
+      schema: brokenSafeParseSchema,
     });
 
     const result = await action(
