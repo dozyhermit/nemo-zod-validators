@@ -54,7 +54,7 @@
   "dependencies": {
     "@rescale/nemo": "^2.0.2",
     "cookie": "^1.0.2",
-    "next": "^15.3.5",
+    "next": "^15.4.6",
     "zod": "^4.0.15"
   }
 }
