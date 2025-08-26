@@ -49,7 +49,7 @@
     "prettier": "^3.6.2",
     "ts-jest": "^29.4.1",
     "typescript": "^5",
-    "typescript-eslint": "^8.40.0"
+    "typescript-eslint": "^8.41.0"
   },
   "dependencies": {
     "@rescale/nemo": "^2.0.2",
