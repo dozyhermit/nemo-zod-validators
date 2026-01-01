@@ -25,7 +25,7 @@ _Then_ you can upgrade `@dozyhermit/nemo-zod-validators` to the latest version.
 
 # Usage
 
-In your `middleware.ts` Next.js project file:
+In your `proxy.ts` or `middleware.ts` Next.js project file:
 
 ```typescript
 import { createNEMO } from '@rescale/nemo';
@@ -42,7 +42,8 @@ const middlewares = {
   '/api/hello/:world': [validatePath<SchemaType>({ schema })],
 };
 
-export const middleware = createNEMO(middlewares);
+// this will be "export const middleware" for middleware.ts files
+export const proxy = createNEMO(middlewares);
 ```
 
 # Functions
