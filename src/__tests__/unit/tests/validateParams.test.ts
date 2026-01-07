@@ -1,6 +1,10 @@
-import { validateParams } from '../validateParams';
-import { errorHandlerCustom } from './mocks/errorHandler';
-import { type SchemaType, brokenSafeParseSchema, schema } from './mocks/schema';
+import { validateParams } from '../../../validateParams';
+import { errorHandlerCustom } from '../mocks/errorHandler';
+import {
+  type SchemaType,
+  brokenSafeParseSchema,
+  schema,
+} from '../mocks/schema';
 
 describe('validateParams', () => {
   test('passes validation with correct data', async () => {

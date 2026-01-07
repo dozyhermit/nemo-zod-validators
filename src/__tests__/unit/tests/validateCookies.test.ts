@@ -1,19 +1,21 @@
-import { validateHeaders } from '../validateHeaders';
-import { errorHandlerCustom } from './mocks/errorHandler';
-import { type SchemaType, brokenSafeParseSchema, schema } from './mocks/schema';
+import { validateCookies } from '../../../validateCookies';
+import { errorHandlerCustom } from '../mocks/errorHandler';
+import {
+  type CookieSchemaType as SchemaType,
+  brokenSafeParseSchema,
+  cookieSchema as schema,
+} from '../mocks/schema';
 
-describe('validateHeaders', () => {
+describe('validateCookies', () => {
   test('passes validation with correct data', async () => {
-    const action = validateHeaders<SchemaType>({ schema });
+    const action = validateCookies<SchemaType>({ schema });
 
     const result = await action(
       {
         // @ts-expect-error type inconsistencies due to mocking function props
-        headers: Object.entries({
-          Number: 123,
-          String: 'Hello',
-          AdvancedString: '123456',
-        }),
+        cookies: {
+          toString: () => 'Number=123; String=Hello; AdvancedString=123456',
+        },
       },
       {}
     );
@@ -22,16 +24,14 @@ describe('validateHeaders', () => {
   });
 
   test('triggers validation error with incorrect data', async () => {
-    const action = validateHeaders<SchemaType>({ schema });
+    const action = validateCookies<SchemaType>({ schema });
 
     const result = await action(
       {
         // @ts-expect-error type inconsistencies due to mocking function props
-        headers: Object.entries({
-          Number: 123,
-          String: 'Hello',
-          AdvancedString: 'World',
-        }),
+        cookies: {
+          toString: () => 'Number=123; String=Hello; AdvancedString=World',
+        },
       },
       {}
     );
@@ -40,7 +40,7 @@ describe('validateHeaders', () => {
   });
 
   test('triggers validation error with incorrect data and uses DEFAULT_ERROR_MESSAGE', async () => {
-    const action = validateHeaders<SchemaType>({
+    const action = validateCookies<SchemaType>({
       // @ts-expect-error intentionally broken schema
       schema: brokenSafeParseSchema,
     });
@@ -48,11 +48,9 @@ describe('validateHeaders', () => {
     const result = await action(
       {
         // @ts-expect-error type inconsistencies due to mocking function props
-        headers: Object.entries({
-          Number: 123,
-          String: 'Hello',
-          AdvancedString: 'World',
-        }),
+        cookies: {
+          toString: () => 'Number=123; String=Hello; AdvancedString=World',
+        },
       },
       {}
     );
@@ -62,7 +60,7 @@ describe('validateHeaders', () => {
 
   describe('with custom error handler', () => {
     test('passes validation with correct data', async () => {
-      const action = validateHeaders<SchemaType>({
+      const action = validateCookies<SchemaType>({
         schema,
         errorHandlerCustom,
       });
@@ -70,11 +68,9 @@ describe('validateHeaders', () => {
       const result = await action(
         {
           // @ts-expect-error type inconsistencies due to mocking function props
-          headers: Object.entries({
-            Number: 123,
-            String: 'Hello',
-            AdvancedString: '123456',
-          }),
+          cookies: {
+            toString: () => 'Number=123; String=Hello; AdvancedString=123456',
+          },
         },
         {}
       );
@@ -83,7 +79,7 @@ describe('validateHeaders', () => {
     });
 
     test('triggers validation error with incorrect data', async () => {
-      const action = validateHeaders<SchemaType>({
+      const action = validateCookies<SchemaType>({
         schema,
         errorHandlerCustom,
       });
@@ -91,11 +87,9 @@ describe('validateHeaders', () => {
       const result = await action(
         {
           // @ts-expect-error type inconsistencies due to mocking function props
-          headers: Object.entries({
-            Number: 123,
-            String: 'Hello',
-            AdvancedString: 'World',
-          }),
+          cookies: {
+            toString: () => 'Number=123; String=Hello; AdvancedString=World',
+          },
         },
         {}
       );

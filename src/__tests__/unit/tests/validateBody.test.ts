@@ -1,21 +1,23 @@
-import { validateCookies } from '../validateCookies';
-import { errorHandlerCustom } from './mocks/errorHandler';
+import { validateBody } from '../../../validateBody';
+import { errorHandlerCustom } from '../mocks/errorHandler';
 import {
-  type CookieSchemaType as SchemaType,
+  type SchemaType,
   brokenSafeParseSchema,
-  cookieSchema as schema,
-} from './mocks/schema';
+  schema,
+} from '../mocks/schema';
 
-describe('validateCookies', () => {
+describe('validateBody', () => {
   test('passes validation with correct data', async () => {
-    const action = validateCookies<SchemaType>({ schema });
+    const action = validateBody<SchemaType>({ schema });
 
     const result = await action(
       {
         // @ts-expect-error type inconsistencies due to mocking function props
-        cookies: {
-          toString: () => 'Number=123; String=Hello; AdvancedString=123456',
-        },
+        json: () => ({
+          Number: 123,
+          String: 'Hello',
+          AdvancedString: '123456',
+        }),
       },
       {}
     );
@@ -24,14 +26,12 @@ describe('validateCookies', () => {
   });
 
   test('triggers validation error with incorrect data', async () => {
-    const action = validateCookies<SchemaType>({ schema });
+    const action = validateBody<SchemaType>({ schema });
 
     const result = await action(
       {
         // @ts-expect-error type inconsistencies due to mocking function props
-        cookies: {
-          toString: () => 'Number=123; String=Hello; AdvancedString=World',
-        },
+        json: () => ({ Number: 123, String: 'Hello', AdvancedString: 'World' }),
       },
       {}
     );
@@ -40,7 +40,7 @@ describe('validateCookies', () => {
   });
 
   test('triggers validation error with incorrect data and uses DEFAULT_ERROR_MESSAGE', async () => {
-    const action = validateCookies<SchemaType>({
+    const action = validateBody<SchemaType>({
       // @ts-expect-error intentionally broken schema
       schema: brokenSafeParseSchema,
     });
@@ -48,9 +48,7 @@ describe('validateCookies', () => {
     const result = await action(
       {
         // @ts-expect-error type inconsistencies due to mocking function props
-        cookies: {
-          toString: () => 'Number=123; String=Hello; AdvancedString=World',
-        },
+        json: () => ({ Number: 123, String: 'Hello', AdvancedString: 'World' }),
       },
       {}
     );
@@ -60,17 +58,16 @@ describe('validateCookies', () => {
 
   describe('with custom error handler', () => {
     test('passes validation with correct data', async () => {
-      const action = validateCookies<SchemaType>({
-        schema,
-        errorHandlerCustom,
-      });
+      const action = validateBody<SchemaType>({ schema, errorHandlerCustom });
 
       const result = await action(
         {
           // @ts-expect-error type inconsistencies due to mocking function props
-          cookies: {
-            toString: () => 'Number=123; String=Hello; AdvancedString=123456',
-          },
+          json: () => ({
+            Number: 123,
+            String: 'Hello',
+            AdvancedString: '123456',
+          }),
         },
         {}
       );
@@ -79,17 +76,16 @@ describe('validateCookies', () => {
     });
 
     test('triggers validation error with incorrect data', async () => {
-      const action = validateCookies<SchemaType>({
-        schema,
-        errorHandlerCustom,
-      });
+      const action = validateBody<SchemaType>({ schema, errorHandlerCustom });
 
       const result = await action(
         {
           // @ts-expect-error type inconsistencies due to mocking function props
-          cookies: {
-            toString: () => 'Number=123; String=Hello; AdvancedString=World',
-          },
+          json: () => ({
+            Number: 123,
+            String: 'Hello',
+            AdvancedString: 'World',
+          }),
         },
         {}
       );

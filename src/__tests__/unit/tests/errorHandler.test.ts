@@ -1,4 +1,4 @@
-import { errorHandlerSchema } from '../errorHandler';
+import { errorHandlerSchema } from '../../../errorHandler';
 
 describe('errorHandlerSchema', () => {
   test('uses fieldErrors if in error', async () => {

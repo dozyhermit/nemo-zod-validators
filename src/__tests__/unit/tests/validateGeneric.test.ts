@@ -1,12 +1,12 @@
-import { validateGeneric } from '../validateGeneric';
-import { errorHandlerCustom } from './mocks/errorHandler';
+import { validateGeneric } from '../../../validateGeneric';
+import { errorHandlerCustom } from '../mocks/errorHandler';
 import {
   type SchemaType,
   ZodEffectsSchemaType,
   brokenSafeParseSchema,
   schema,
   zodEffectsSchema,
-} from './mocks/schema';
+} from '../mocks/schema';
 
 describe('validateGeneric', () => {
   test('passes validation with correct data', () => {
