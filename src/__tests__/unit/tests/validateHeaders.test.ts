@@ -1,15 +1,19 @@
-import { validateBody } from '../validateBody';
-import { errorHandlerCustom } from './mocks/errorHandler';
-import { type SchemaType, brokenSafeParseSchema, schema } from './mocks/schema';
+import { validateHeaders } from '../../../validateHeaders';
+import { errorHandlerCustom } from '../mocks/errorHandler';
+import {
+  type SchemaType,
+  brokenSafeParseSchema,
+  schema,
+} from '../mocks/schema';
 
-describe('validateBody', () => {
+describe('validateHeaders', () => {
   test('passes validation with correct data', async () => {
-    const action = validateBody<SchemaType>({ schema });
+    const action = validateHeaders<SchemaType>({ schema });
 
     const result = await action(
       {
         // @ts-expect-error type inconsistencies due to mocking function props
-        json: () => ({
+        headers: Object.entries({
           Number: 123,
           String: 'Hello',
           AdvancedString: '123456',
@@ -22,12 +26,16 @@ describe('validateBody', () => {
   });
 
   test('triggers validation error with incorrect data', async () => {
-    const action = validateBody<SchemaType>({ schema });
+    const action = validateHeaders<SchemaType>({ schema });
 
     const result = await action(
       {
         // @ts-expect-error type inconsistencies due to mocking function props
-        json: () => ({ Number: 123, String: 'Hello', AdvancedString: 'World' }),
+        headers: Object.entries({
+          Number: 123,
+          String: 'Hello',
+          AdvancedString: 'World',
+        }),
       },
       {}
     );
@@ -36,7 +44,7 @@ describe('validateBody', () => {
   });
 
   test('triggers validation error with incorrect data and uses DEFAULT_ERROR_MESSAGE', async () => {
-    const action = validateBody<SchemaType>({
+    const action = validateHeaders<SchemaType>({
       // @ts-expect-error intentionally broken schema
       schema: brokenSafeParseSchema,
     });
@@ -44,7 +52,11 @@ describe('validateBody', () => {
     const result = await action(
       {
         // @ts-expect-error type inconsistencies due to mocking function props
-        json: () => ({ Number: 123, String: 'Hello', AdvancedString: 'World' }),
+        headers: Object.entries({
+          Number: 123,
+          String: 'Hello',
+          AdvancedString: 'World',
+        }),
       },
       {}
     );
@@ -54,12 +66,15 @@ describe('validateBody', () => {
 
   describe('with custom error handler', () => {
     test('passes validation with correct data', async () => {
-      const action = validateBody<SchemaType>({ schema, errorHandlerCustom });
+      const action = validateHeaders<SchemaType>({
+        schema,
+        errorHandlerCustom,
+      });
 
       const result = await action(
         {
           // @ts-expect-error type inconsistencies due to mocking function props
-          json: () => ({
+          headers: Object.entries({
             Number: 123,
             String: 'Hello',
             AdvancedString: '123456',
@@ -72,12 +87,15 @@ describe('validateBody', () => {
     });
 
     test('triggers validation error with incorrect data', async () => {
-      const action = validateBody<SchemaType>({ schema, errorHandlerCustom });
+      const action = validateHeaders<SchemaType>({
+        schema,
+        errorHandlerCustom,
+      });
 
       const result = await action(
         {
           // @ts-expect-error type inconsistencies due to mocking function props
-          json: () => ({
+          headers: Object.entries({
             Number: 123,
             String: 'Hello',
             AdvancedString: 'World',

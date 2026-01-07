@@ -1,5 +1,5 @@
-import { validateEquals } from '../validateEquals';
-import { errorHandlerEquals } from './mocks/errorHandler';
+import { validateEquals } from '../../../validateEquals';
+import { errorHandlerEquals } from '../mocks/errorHandler';
 
 describe('validateEquals', () => {
   test('passes validation when two values equal', async () => {

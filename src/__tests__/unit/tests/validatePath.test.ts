@@ -1,6 +1,10 @@
-import { validatePath } from '../validatePath';
-import { errorHandlerCustom } from './mocks/errorHandler';
-import { type SchemaType, brokenSafeParseSchema, schema } from './mocks/schema';
+import { validatePath } from '../../../validatePath';
+import { errorHandlerCustom } from '../mocks/errorHandler';
+import {
+  type SchemaType,
+  brokenSafeParseSchema,
+  schema,
+} from '../mocks/schema';
 
 describe('validatePath', () => {
   test('passes validation with correct data', async () => {
