@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
-
-exports[`validateEquals with custom error handler fails validation when two values do not equal 1`] = `
-{
-  "message": "Invalid equals!",
-}
-`;
